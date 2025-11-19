@@ -23,6 +23,13 @@ export interface NavItem {
     isActive?: boolean;
 }
 
+export interface NavItemWithChildren {
+    title: string;
+    icon?: LucideIcon | null;
+    isActive?: boolean;
+    items: NavItem[];
+}
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };

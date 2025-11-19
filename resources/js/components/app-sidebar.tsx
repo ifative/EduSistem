@@ -1,3 +1,4 @@
+import { NavCollapsible } from '@/components/nav-collapsible';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -11,11 +12,26 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import { type NavItem } from '@/types';
+import { type NavItem, type NavItemWithChildren } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Activity, BookOpen, Folder, Image, LayoutGrid, Settings, Shield, ShieldCheck, Users } from 'lucide-react';
+import {
+    Activity,
+    BookOpen,
+    Building2,
+    Calendar,
+    Database,
+    GraduationCap,
+    HelpCircle,
+    Image,
+    LayoutGrid,
+    Settings,
+    Shield,
+    ShieldCheck,
+    Users,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
+// Primary navigation - Most frequently used
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
@@ -24,29 +40,75 @@ const mainNavItems: NavItem[] = [
     },
 ];
 
-const adminNavItems: NavItem[] = [
+// Master Data - Collapsible menu for data management
+const masterDataItems: NavItemWithChildren[] = [
     {
-        title: 'Users',
-        href: '/admin/users',
+        title: 'Master Data',
+        icon: Database,
+        items: [
+            {
+                title: 'Academic Years',
+                href: '/admin/master/academic-years',
+            },
+            {
+                title: 'Students',
+                href: '/admin/master/students',
+            },
+            {
+                title: 'Teachers',
+                href: '/admin/master/teachers',
+            },
+            {
+                title: 'Classrooms',
+                href: '/admin/master/classrooms',
+            },
+            {
+                title: 'Subjects',
+                href: '/admin/master/subjects',
+            },
+            {
+                title: 'Levels',
+                href: '/admin/master/levels',
+            },
+            {
+                title: 'Majors',
+                href: '/admin/master/majors',
+            },
+        ],
+    },
+];
+
+// User & Access Management - Security related
+const userManagementItems: NavItemWithChildren[] = [
+    {
+        title: 'User Management',
         icon: Users,
+        items: [
+            {
+                title: 'Users',
+                href: '/admin/users',
+            },
+            {
+                title: 'Roles',
+                href: '/admin/roles',
+            },
+            {
+                title: 'Permissions',
+                href: '/admin/permissions',
+            },
+        ],
     },
-    {
-        title: 'Roles',
-        href: '/admin/roles',
-        icon: Shield,
-    },
-    {
-        title: 'Permissions',
-        href: '/admin/permissions',
-        icon: ShieldCheck,
-    },
+];
+
+// System administration items
+const systemItems: NavItem[] = [
     {
         title: 'Activity Logs',
         href: '/admin/activity-logs',
         icon: Activity,
     },
     {
-        title: 'Media',
+        title: 'Media Library',
         href: '/admin/media',
         icon: Image,
     },
@@ -57,15 +119,16 @@ const adminNavItems: NavItem[] = [
     },
 ];
 
+// Footer navigation - Help & Resources
 const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
+        title: 'Help & Support',
+        href: 'https://github.com/ifative/EduSistem/issues',
+        icon: HelpCircle,
     },
     {
         title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
+        href: 'https://github.com/ifative/EduSistem/wiki',
         icon: BookOpen,
     },
 ];
@@ -86,8 +149,17 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
-                <NavMain items={adminNavItems} label="Admin" />
+                {/* Primary Navigation */}
+                <NavMain items={mainNavItems} label="Menu" />
+
+                {/* Academic Data Management */}
+                <NavCollapsible items={masterDataItems} label="Academic" />
+
+                {/* Access Control */}
+                <NavCollapsible items={userManagementItems} label="Access Control" />
+
+                {/* System Administration */}
+                <NavMain items={systemItems} label="System" />
             </SidebarContent>
 
             <SidebarFooter>

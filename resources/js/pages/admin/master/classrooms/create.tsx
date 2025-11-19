@@ -16,9 +16,17 @@ interface Props {
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Dashboard', href: '/dashboard' }, { title: 'Master Data', href: '#' }, { title: 'Classrooms', href: '/admin/master/classrooms' }, { title: 'Create', href: '#' }];
 
 export default function ClassroomsCreate({ levels, majors, teachers }: Props) {
-    const { data, setData, post, processing, errors } = useForm({ name: '', code: '', level_id: '', major_id: '', capacity: '30', homeroom_teacher_id: '' });
+    const { data, setData, post, processing, errors, transform } = useForm({ name: '', code: '', level_id: '', major_id: '__none__', capacity: '30', homeroom_teacher_id: '__none__' });
 
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); post('/admin/master/classrooms'); };
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        transform((data) => ({
+            ...data,
+            major_id: data.major_id === '__none__' ? '' : data.major_id,
+            homeroom_teacher_id: data.homeroom_teacher_id === '__none__' ? '' : data.homeroom_teacher_id,
+        }));
+        post('/admin/master/classrooms');
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -35,11 +43,11 @@ export default function ClassroomsCreate({ levels, majors, teachers }: Props) {
                             </div>
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="space-y-2"><Label>Level *</Label><Select value={data.level_id} onValueChange={(v) => setData('level_id', v)}><SelectTrigger><SelectValue placeholder="Select level" /></SelectTrigger><SelectContent>{levels.map((l) => <SelectItem key={l.id} value={String(l.id)}>{l.name}</SelectItem>)}</SelectContent></Select>{errors.level_id && <p className="text-sm text-destructive">{errors.level_id}</p>}</div>
-                                <div className="space-y-2"><Label>Major</Label><Select value={data.major_id} onValueChange={(v) => setData('major_id', v)}><SelectTrigger><SelectValue placeholder="Select major" /></SelectTrigger><SelectContent><SelectItem value="">None</SelectItem>{majors.map((m) => <SelectItem key={m.id} value={String(m.id)}>{m.name}</SelectItem>)}</SelectContent></Select></div>
+                                <div className="space-y-2"><Label>Major</Label><Select value={data.major_id} onValueChange={(v) => setData('major_id', v)}><SelectTrigger><SelectValue placeholder="Select major" /></SelectTrigger><SelectContent><SelectItem value="__none__">None</SelectItem>{majors.map((m) => <SelectItem key={m.id} value={String(m.id)}>{m.name}</SelectItem>)}</SelectContent></Select></div>
                             </div>
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="space-y-2"><Label htmlFor="capacity">Capacity *</Label><Input id="capacity" type="number" min="1" max="100" value={data.capacity} onChange={(e) => setData('capacity', e.target.value)} />{errors.capacity && <p className="text-sm text-destructive">{errors.capacity}</p>}</div>
-                                <div className="space-y-2"><Label>Homeroom Teacher</Label><Select value={data.homeroom_teacher_id} onValueChange={(v) => setData('homeroom_teacher_id', v)}><SelectTrigger><SelectValue placeholder="Select teacher" /></SelectTrigger><SelectContent><SelectItem value="">None</SelectItem>{teachers.map((t) => <SelectItem key={t.id} value={String(t.id)}>{t.name}</SelectItem>)}</SelectContent></Select></div>
+                                <div className="space-y-2"><Label>Homeroom Teacher</Label><Select value={data.homeroom_teacher_id} onValueChange={(v) => setData('homeroom_teacher_id', v)}><SelectTrigger><SelectValue placeholder="Select teacher" /></SelectTrigger><SelectContent><SelectItem value="__none__">None</SelectItem>{teachers.map((t) => <SelectItem key={t.id} value={String(t.id)}>{t.name}</SelectItem>)}</SelectContent></Select></div>
                             </div>
                         </CardContent>
                     </Card>

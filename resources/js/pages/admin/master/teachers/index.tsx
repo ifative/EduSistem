@@ -36,11 +36,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function TeachersIndex({ teachers, filters }: Props) {
     const [search, setSearch] = useState(filters.search || '');
-    const [status, setStatus] = useState(filters.status || '');
+    const [status, setStatus] = useState(filters.status || '__all__');
     const [deleteId, setDeleteId] = useState<number | null>(null);
 
     const handleFilter = () => {
-        router.get('/admin/master/teachers', { search: search || undefined, status: status || undefined }, { preserveState: true });
+        router.get('/admin/master/teachers', { search: search || undefined, status: status === '__all__' ? undefined : status }, { preserveState: true });
     };
 
     const handleDelete = () => {
@@ -69,7 +69,7 @@ export default function TeachersIndex({ teachers, filters }: Props) {
                                 <Select value={status} onValueChange={setStatus}>
                                     <SelectTrigger className="w-32"><SelectValue placeholder="Status" /></SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="">All</SelectItem>
+                                        <SelectItem value="__all__">All</SelectItem>
                                         <SelectItem value="active">Active</SelectItem>
                                         <SelectItem value="inactive">Inactive</SelectItem>
                                     </SelectContent>

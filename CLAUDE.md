@@ -2,6 +2,65 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Important: Documentation Lookup & Best Practices
+
+### Always Query Context7 MCP First
+Before implementing any feature or making changes involving frameworks/libraries, **always query Context7 MCP** to get the latest documentation:
+
+1. Use `mcp__context7__resolve-library-id` to find the correct library ID
+2. Use `mcp__context7__get-library-docs` to fetch up-to-date documentation
+
+**Libraries to query for this project:**
+- Laravel 12 (`/laravel/docs`)
+- React 19 (`/facebook/react`)
+- Inertia.js (`/inertiajs/inertia`)
+- Tailwind CSS (`/tailwindlabs/tailwindcss`)
+- shadcn/ui (`/shadcn-ui/ui`)
+- Spatie Permission (`/spatie/laravel-permission`)
+- Spatie Activitylog (`/spatie/laravel-activitylog`)
+- Spatie Medialibrary (`/spatie/laravel-medialibrary`)
+- react-i18next (`/i18next/react-i18next`)
+- Pest PHP (`/pestphp/pest`)
+
+### Follow Best Practices
+Always adhere to the best practices of each framework and library:
+
+**Laravel Best Practices:**
+- Use Form Request classes for validation
+- Follow repository/service pattern for business logic
+- Use Eloquent relationships and eager loading
+- Implement proper error handling with try-catch
+- Use database transactions for multiple operations
+- Follow Laravel naming conventions (snake_case for DB, camelCase for methods)
+
+**React Best Practices:**
+- Use functional components with hooks
+- Implement proper state management
+- Follow component composition patterns
+- Use TypeScript for type safety
+- Implement proper error boundaries
+- Memoize expensive computations with useMemo/useCallback
+
+**Inertia.js Best Practices:**
+- Use shared data for common props
+- Implement proper form handling with useForm
+- Use partial reloads when appropriate
+- Handle validation errors properly
+- Use preserveState/preserveScroll when needed
+
+**TypeScript Best Practices:**
+- Define proper interfaces and types
+- Avoid `any` type - use proper typing
+- Use generics when appropriate
+- Export types from dedicated type files
+
+**Testing Best Practices:**
+- Write tests for all CRUD operations
+- Test validation rules
+- Test authorization/permissions
+- Use factories for test data
+- Follow AAA pattern (Arrange, Act, Assert)
+
 ## Project Overview
 
 EduSistem - Modern School Management System built with Laravel 12 + React 19 + Inertia.js.

@@ -18,11 +18,19 @@ interface Props {
 const breadcrumbs: BreadcrumbItem[] = [{ title: 'Dashboard', href: '/dashboard' }, { title: 'Master Data', href: '#' }, { title: 'Classrooms', href: '/admin/master/classrooms' }, { title: 'Edit', href: '#' }];
 
 export default function ClassroomsEdit({ classroom, levels, majors, teachers }: Props) {
-    const { data, setData, put, processing, errors } = useForm({
-        name: classroom.name, code: classroom.code, level_id: String(classroom.level_id), major_id: classroom.major_id ? String(classroom.major_id) : '', capacity: String(classroom.capacity), homeroom_teacher_id: classroom.homeroom_teacher_id ? String(classroom.homeroom_teacher_id) : ''
+    const { data, setData, put, processing, errors, transform } = useForm({
+        name: classroom.name, code: classroom.code, level_id: String(classroom.level_id), major_id: classroom.major_id ? String(classroom.major_id) : '__none__', capacity: String(classroom.capacity), homeroom_teacher_id: classroom.homeroom_teacher_id ? String(classroom.homeroom_teacher_id) : '__none__'
     });
 
-    const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); put(`/admin/master/classrooms/${classroom.id}`); };
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        transform((data) => ({
+            ...data,
+            major_id: data.major_id === '__none__' ? '' : data.major_id,
+            homeroom_teacher_id: data.homeroom_teacher_id === '__none__' ? '' : data.homeroom_teacher_id,
+        }));
+        put(`/admin/master/classrooms/${classroom.id}`);
+    };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -39,11 +47,11 @@ export default function ClassroomsEdit({ classroom, levels, majors, teachers }: 
                             </div>
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="space-y-2"><Label>Level *</Label><Select value={data.level_id} onValueChange={(v) => setData('level_id', v)}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{levels.map((l) => <SelectItem key={l.id} value={String(l.id)}>{l.name}</SelectItem>)}</SelectContent></Select>{errors.level_id && <p className="text-sm text-destructive">{errors.level_id}</p>}</div>
-                                <div className="space-y-2"><Label>Major</Label><Select value={data.major_id} onValueChange={(v) => setData('major_id', v)}><SelectTrigger><SelectValue placeholder="None" /></SelectTrigger><SelectContent><SelectItem value="">None</SelectItem>{majors.map((m) => <SelectItem key={m.id} value={String(m.id)}>{m.name}</SelectItem>)}</SelectContent></Select></div>
+                                <div className="space-y-2"><Label>Major</Label><Select value={data.major_id} onValueChange={(v) => setData('major_id', v)}><SelectTrigger><SelectValue placeholder="None" /></SelectTrigger><SelectContent><SelectItem value="__none__">None</SelectItem>{majors.map((m) => <SelectItem key={m.id} value={String(m.id)}>{m.name}</SelectItem>)}</SelectContent></Select></div>
                             </div>
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="space-y-2"><Label htmlFor="capacity">Capacity *</Label><Input id="capacity" type="number" min="1" max="100" value={data.capacity} onChange={(e) => setData('capacity', e.target.value)} />{errors.capacity && <p className="text-sm text-destructive">{errors.capacity}</p>}</div>
-                                <div className="space-y-2"><Label>Homeroom Teacher</Label><Select value={data.homeroom_teacher_id} onValueChange={(v) => setData('homeroom_teacher_id', v)}><SelectTrigger><SelectValue placeholder="None" /></SelectTrigger><SelectContent><SelectItem value="">None</SelectItem>{teachers.map((t) => <SelectItem key={t.id} value={String(t.id)}>{t.name}</SelectItem>)}</SelectContent></Select></div>
+                                <div className="space-y-2"><Label>Homeroom Teacher</Label><Select value={data.homeroom_teacher_id} onValueChange={(v) => setData('homeroom_teacher_id', v)}><SelectTrigger><SelectValue placeholder="None" /></SelectTrigger><SelectContent><SelectItem value="__none__">None</SelectItem>{teachers.map((t) => <SelectItem key={t.id} value={String(t.id)}>{t.name}</SelectItem>)}</SelectContent></Select></div>
                             </div>
                         </CardContent>
                     </Card>

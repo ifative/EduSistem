@@ -23,11 +23,11 @@ const breadcrumbs: BreadcrumbItem[] = [{ title: 'Dashboard', href: '/dashboard' 
 
 export default function ClassroomsIndex({ classrooms, levels, majors, filters }: Props) {
     const [search, setSearch] = useState(filters.search || '');
-    const [levelId, setLevelId] = useState(filters.level_id || '');
-    const [majorId, setMajorId] = useState(filters.major_id || '');
+    const [levelId, setLevelId] = useState(filters.level_id || '__all__');
+    const [majorId, setMajorId] = useState(filters.major_id || '__all__');
     const [deleteId, setDeleteId] = useState<number | null>(null);
 
-    const handleFilter = () => router.get('/admin/master/classrooms', { search: search || undefined, level_id: levelId || undefined, major_id: majorId || undefined }, { preserveState: true });
+    const handleFilter = () => router.get('/admin/master/classrooms', { search: search || undefined, level_id: levelId === '__all__' ? undefined : levelId, major_id: majorId === '__all__' ? undefined : majorId }, { preserveState: true });
     const handleDelete = () => { if (deleteId) { router.delete(`/admin/master/classrooms/${deleteId}`); setDeleteId(null); } };
 
     return (
@@ -44,8 +44,8 @@ export default function ClassroomsIndex({ classrooms, levels, majors, filters }:
                             <CardTitle>All Classrooms</CardTitle>
                             <div className="flex flex-wrap gap-2">
                                 <Input placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-40" />
-                                <Select value={levelId} onValueChange={setLevelId}><SelectTrigger className="w-32"><SelectValue placeholder="Level" /></SelectTrigger><SelectContent><SelectItem value="">All Levels</SelectItem>{levels.map((l) => <SelectItem key={l.id} value={String(l.id)}>{l.name}</SelectItem>)}</SelectContent></Select>
-                                <Select value={majorId} onValueChange={setMajorId}><SelectTrigger className="w-32"><SelectValue placeholder="Major" /></SelectTrigger><SelectContent><SelectItem value="">All Majors</SelectItem>{majors.map((m) => <SelectItem key={m.id} value={String(m.id)}>{m.name}</SelectItem>)}</SelectContent></Select>
+                                <Select value={levelId} onValueChange={setLevelId}><SelectTrigger className="w-32"><SelectValue placeholder="Level" /></SelectTrigger><SelectContent><SelectItem value="__all__">All Levels</SelectItem>{levels.map((l) => <SelectItem key={l.id} value={String(l.id)}>{l.name}</SelectItem>)}</SelectContent></Select>
+                                <Select value={majorId} onValueChange={setMajorId}><SelectTrigger className="w-32"><SelectValue placeholder="Major" /></SelectTrigger><SelectContent><SelectItem value="__all__">All Majors</SelectItem>{majors.map((m) => <SelectItem key={m.id} value={String(m.id)}>{m.name}</SelectItem>)}</SelectContent></Select>
                                 <Button onClick={handleFilter} variant="secondary">Filter</Button>
                             </div>
                         </div>

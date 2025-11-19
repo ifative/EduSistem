@@ -18,10 +18,10 @@ const breadcrumbs: BreadcrumbItem[] = [{ title: 'Dashboard', href: '/dashboard' 
 
 export default function SubjectsIndex({ subjects, filters, groups }: Props) {
     const [search, setSearch] = useState(filters.search || '');
-    const [group, setGroup] = useState(filters.group || '');
+    const [group, setGroup] = useState(filters.group || '__all__');
     const [deleteId, setDeleteId] = useState<number | null>(null);
 
-    const handleFilter = () => router.get('/admin/master/subjects', { search: search || undefined, group: group || undefined }, { preserveState: true });
+    const handleFilter = () => router.get('/admin/master/subjects', { search: search || undefined, group: group === '__all__' ? undefined : group }, { preserveState: true });
     const handleDelete = () => { if (deleteId) { router.delete(`/admin/master/subjects/${deleteId}`); setDeleteId(null); } };
 
     return (
@@ -38,7 +38,7 @@ export default function SubjectsIndex({ subjects, filters, groups }: Props) {
                             <CardTitle>All Subjects</CardTitle>
                             <div className="flex flex-wrap gap-2">
                                 <Input placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-48" />
-                                <Select value={group} onValueChange={setGroup}><SelectTrigger className="w-32"><SelectValue placeholder="Group" /></SelectTrigger><SelectContent><SelectItem value="">All Groups</SelectItem>{groups.map((g) => <SelectItem key={g} value={g}>{g}</SelectItem>)}</SelectContent></Select>
+                                <Select value={group} onValueChange={setGroup}><SelectTrigger className="w-32"><SelectValue placeholder="Group" /></SelectTrigger><SelectContent><SelectItem value="__all__">All Groups</SelectItem>{groups.map((g) => <SelectItem key={g} value={g}>{g}</SelectItem>)}</SelectContent></Select>
                                 <Button onClick={handleFilter} variant="secondary">Filter</Button>
                             </div>
                         </div>

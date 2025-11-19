@@ -71,15 +71,15 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function StudentsIndex({ students, classrooms, filters }: Props) {
     const [search, setSearch] = useState(filters.search || '');
-    const [status, setStatus] = useState(filters.status || '');
-    const [classroomId, setClassroomId] = useState(filters.classroom_id || '');
+    const [status, setStatus] = useState(filters.status || '__all__');
+    const [classroomId, setClassroomId] = useState(filters.classroom_id || '__all__');
     const [deleteId, setDeleteId] = useState<number | null>(null);
 
     const handleFilter = () => {
         router.get('/admin/master/students', {
             search: search || undefined,
-            status: status || undefined,
-            classroom_id: classroomId || undefined,
+            status: status === '__all__' ? undefined : status,
+            classroom_id: classroomId === '__all__' ? undefined : classroomId,
         }, { preserveState: true });
     };
 
@@ -145,7 +145,7 @@ export default function StudentsIndex({ students, classrooms, filters }: Props) 
                                         <SelectValue placeholder="Status" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="">All Status</SelectItem>
+                                        <SelectItem value="__all__">All Status</SelectItem>
                                         <SelectItem value="active">Active</SelectItem>
                                         <SelectItem value="graduated">Graduated</SelectItem>
                                         <SelectItem value="transferred">Transferred</SelectItem>
@@ -157,7 +157,7 @@ export default function StudentsIndex({ students, classrooms, filters }: Props) 
                                         <SelectValue placeholder="Classroom" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="">All Classrooms</SelectItem>
+                                        <SelectItem value="__all__">All Classrooms</SelectItem>
                                         {classrooms.map((classroom) => (
                                             <SelectItem key={classroom.id} value={String(classroom.id)}>
                                                 {classroom.name}

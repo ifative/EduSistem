@@ -1,5 +1,4 @@
 import { NavCollapsible } from '@/components/nav-collapsible';
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -16,17 +15,10 @@ import { type NavItem, type NavItemWithChildren } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
     Activity,
-    BookOpen,
-    Building2,
-    Calendar,
     Database,
-    GraduationCap,
-    HelpCircle,
     Image,
     LayoutGrid,
     Settings,
-    Shield,
-    ShieldCheck,
     Users,
 } from 'lucide-react';
 import AppLogo from './app-logo';
@@ -119,20 +111,6 @@ const systemItems: NavItem[] = [
     },
 ];
 
-// Footer navigation - Help & Resources
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Help & Support',
-        href: 'https://github.com/ifative/EduSistem/issues',
-        icon: HelpCircle,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://github.com/ifative/EduSistem/wiki',
-        icon: BookOpen,
-    },
-];
-
 export function AppSidebar() {
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -163,7 +141,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>

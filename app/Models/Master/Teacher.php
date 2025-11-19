@@ -3,6 +3,8 @@
 namespace App\Models\Master;
 
 use App\Models\User;
+use Database\Factories\Master\TeacherFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,7 +15,12 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Teacher extends Model implements HasMedia
 {
-    use LogsActivity, InteractsWithMedia;
+    use HasFactory, LogsActivity, InteractsWithMedia;
+
+    protected static function newFactory()
+    {
+        return TeacherFactory::new();
+    }
 
     protected $fillable = [
         'user_id',

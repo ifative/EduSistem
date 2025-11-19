@@ -245,8 +245,8 @@ php artisan storage:link
 
 ### Adding New Permissions
 
-1. Add to `database/seeders/RoleAndPermissionSeeder.php`
-2. Run `php artisan db:seed --class=RoleAndPermissionSeeder`
+1. Add to `database/seeders/RolesAndPermissionsSeeder.php`
+2. Run `php artisan db:seed --class=RolesAndPermissionsSeeder`
 3. Assign to roles as needed
 
 ## Testing

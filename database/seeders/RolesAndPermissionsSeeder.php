@@ -39,6 +39,49 @@ class RolesAndPermissionsSeeder extends Seeder
             // Settings
             'settings.view',
             'settings.edit',
+
+            // Master Data - Academic Years
+            'master.academic-years.view',
+            'master.academic-years.create',
+            'master.academic-years.edit',
+            'master.academic-years.delete',
+
+            // Master Data - Levels
+            'master.levels.view',
+            'master.levels.create',
+            'master.levels.edit',
+            'master.levels.delete',
+
+            // Master Data - Majors
+            'master.majors.view',
+            'master.majors.create',
+            'master.majors.edit',
+            'master.majors.delete',
+
+            // Master Data - Subjects
+            'master.subjects.view',
+            'master.subjects.create',
+            'master.subjects.edit',
+            'master.subjects.delete',
+
+            // Master Data - Students
+            'master.students.view',
+            'master.students.create',
+            'master.students.edit',
+            'master.students.delete',
+            'master.students.import',
+
+            // Master Data - Teachers
+            'master.teachers.view',
+            'master.teachers.create',
+            'master.teachers.edit',
+            'master.teachers.delete',
+
+            // Master Data - Classrooms
+            'master.classrooms.view',
+            'master.classrooms.create',
+            'master.classrooms.edit',
+            'master.classrooms.delete',
         ];
 
         foreach ($permissions as $permission) {

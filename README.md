@@ -1,61 +1,56 @@
-# Laravel React Admin Boilerplate
+# EduSistem
 
-A modern, full-featured admin boilerplate built with Laravel 12 and React 19. Features complete authentication, role-based access control, activity logging, and a beautiful admin UI powered by shadcn/ui components.
+Modern School Management System built with Laravel 12 and React 19. A comprehensive solution for Indonesian schools featuring student admission (PPDB), attendance, learning management (LMS), computer-based testing (CBT), and academic reporting.
 
 ## Features
 
-### Authentication & Security
-- Complete authentication system (Login, Register, Forgot Password)
-- Two-Factor Authentication (2FA) with QR code
-- Email verification
-- Password confirmation for sensitive actions
-- API authentication with Laravel Sanctum
+### Core Features (Included)
+- Complete authentication system (Login, Register, 2FA)
+- Role-based access control (Admin, Teacher, Student, Parent)
+- Activity logging and audit trail
+- Notification system
+- Media management
+- Data export to Excel
 
-### User Management
-- Full CRUD operations for users
-- User avatar upload with Spatie MediaLibrary
-- Role assignment per user
-- Paginated user listing with search
-- Export users to Excel
+### Module: Master Data
+- Academic years and semesters
+- Students with full profile and import/export
+- Teachers management
+- Classrooms with enrollment
+- Subjects and extracurriculars
 
-### Role & Permission Management
-- Role-based access control (RBAC) with Spatie Permission
-- Visual permission matrix for role management
-- Module-based permission organization
-- Permission indicators in role listing
-- Export roles to Excel
+### Module: PPDB (Student Admission)
+- Online registration with multi-step form
+- Multiple admission paths (Zonasi, Achievement, Affirmation)
+- Document upload and verification
+- Automated selection algorithms
+- Payment tracking
 
-### Dashboard
-- Statistics widgets (Users, Roles, Permissions, Growth)
-- Recent activity feed
-- Quick action shortcuts
+### Module: Attendance
+- Daily attendance by teacher
+- QR code scanning
+- Leave/permit management
+- Attendance reports
 
-### Activity Logging
-- Automatic activity logging with Spatie Activitylog
-- Searchable activity logs
-- Filter by event type
-- Export activity logs to Excel
+### Module: LMS (Learning Management)
+- Teacher material upload
+- Assignment creation
+- Student submission with file upload
+- Grading and feedback
+- Discussion forums
 
-### Notification System
-- Database notifications
-- Real-time notification dropdown with polling
-- Mark as read / Mark all as read
-- Click-to-navigate functionality
+### Module: CBT (Computer Based Test)
+- Question bank management
+- 5 question types (MC, Complex MC, Matching, Short Answer, Essay)
+- Exam scheduling with tokens
+- Auto-grading
+- Anti-cheat protection
 
-### Media Manager
-- Grid view with thumbnails
-- File type filtering (Images, Documents, Videos)
-- Search functionality
-- Image preview modal
-- Download and delete actions
-
-### Additional Features
-- Dark/Light mode theme switching
-- Responsive sidebar navigation
-- Breadcrumb navigation
-- Internationalization (i18n) support
-- Toast notifications
-- Confirmation dialogs
+### Module: Academic
+- Grade entry by component
+- Report card generation
+- PDF export
+- Promotion management
 
 ## Tech Stack
 
@@ -90,8 +85,8 @@ A modern, full-featured admin boilerplate built with Laravel 12 and React 19. Fe
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/ifative/laravel-boilerplate.git
-   cd laravel-boilerplate
+   git clone https://github.com/ifative/EduSistem.git
+   cd EduSistem
    ```
 
 2. **Run the setup command**
@@ -189,15 +184,20 @@ php artisan test --filter=DashboardTest
 
 ## Default Permissions
 
-The boilerplate includes the following default permissions organized by module:
+Permissions are organized by module:
 
 | Module | Permissions |
 |--------|-------------|
 | Users | `users.view`, `users.create`, `users.edit`, `users.delete` |
 | Roles | `roles.view`, `roles.create`, `roles.edit`, `roles.delete` |
-| Permissions | `permissions.view`, `permissions.create`, `permissions.delete` |
-| Activity Logs | `activity-logs.view` |
-| Settings | `settings.view`, `settings.edit` |
+| Master Data | `master.students.view`, `master.students.create`, etc. |
+| PPDB | `ppdb.periods.view`, `ppdb.registrations.verify`, etc. |
+| Attendance | `attendance.view`, `attendance.create`, `attendance.permits.approve` |
+| LMS | `lms.materials.create`, `lms.assignments.grade`, etc. |
+| CBT | `cbt.banks.create`, `cbt.exams.schedule`, `cbt.grade.edit` |
+| Academic | `academic.grades.entry`, `academic.reports.generate`, etc. |
+
+See [docs/modules](./docs) for complete permission lists per module.
 
 ## Configuration
 
@@ -232,16 +232,31 @@ For file uploads, ensure the storage link is created:
 php artisan storage:link
 ```
 
+## Documentation
+
+Comprehensive documentation is available in the `docs/` folder:
+
+- [Architecture](./docs/architecture.md) - System design and module structure
+- [Master Data](./docs/modules/master-data.md) - Students, teachers, classrooms
+- [PPDB](./docs/modules/ppdb.md) - Student admission system
+- [Attendance](./docs/modules/attendance.md) - Attendance tracking
+- [LMS](./docs/modules/lms.md) - Learning management
+- [CBT](./docs/modules/cbt.md) - Computer-based testing
+- [Academic](./docs/modules/academic.md) - Grades and report cards
+- [Database Schema](./docs/database/schema.md) - Complete table structures
+- [Roadmap](./docs/development/roadmap.md) - Development phases
+
 ## Adding New Features
 
-### Creating a New Admin Module
+### Creating a New Module
 
-1. Create the model and migration
-2. Create the controller in `app/Http/Controllers/Admin/`
-3. Add routes in `routes/admin.php` with permissions
-4. Create React pages in `resources/js/pages/admin/`
-5. Add navigation item in `resources/js/components/app-sidebar.tsx`
-6. Create permissions in seeder
+1. Create migrations in `database/migrations/{module}/`
+2. Create models in `app/Models/Modules/{Module}/`
+3. Create controllers in `app/Http/Controllers/Modules/{Module}/`
+4. Add routes in `routes/modules/{module}.php`
+5. Create React pages in `resources/js/pages/modules/{module}/`
+6. Add to module config in `config/modules.php`
+7. Create permissions in seeder
 
 ### Adding New Permissions
 

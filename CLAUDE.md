@@ -4,16 +4,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Laravel 12 + React 19 boilerplate with Inertia.js, featuring:
+EduSistem - Modern School Management System built with Laravel 12 + React 19 + Inertia.js.
+
+### Core Features
 - Complete authentication (Laravel Fortify with 2FA)
-- Role-based access control (Spatie Permission)
+- Role-based access control (Admin, Teacher, Student, Parent)
 - Activity logging (Spatie Activitylog)
 - Media management (Spatie Medialibrary)
-- Application settings (Spatie Settings)
+- Notification system
 - API authentication (Laravel Sanctum)
 - Internationalization (react-i18next)
-- Full admin UI for users, roles, permissions, activity logs, settings
 - shadcn/ui components with TypeScript strict mode
+
+### Modules
+- **Master Data**: Students, teachers, classrooms, subjects, academic years
+- **PPDB**: Online student admission with selection algorithms
+- **Attendance**: Daily attendance, QR scanning, permits
+- **LMS**: Materials, assignments, submissions, grading
+- **CBT**: Question banks, exams, auto-grading, anti-cheat
+- **Academic**: Grades, report cards, promotions
 
 ## Common Commands
 
@@ -45,41 +54,67 @@ php artisan test tests/Feature/Auth/LoginTest.php
 - **app/Actions/Fortify/** - User actions (registration, password validation)
 - **app/Http/Controllers/Settings/** - Profile, Password, 2FA controllers
 - **app/Http/Controllers/Admin/** - Admin controllers (Users, Roles, Permissions, ActivityLogs, Settings)
+- **app/Http/Controllers/Modules/** - Module controllers (PPDB, Attendance, LMS, CBT, Academic)
 - **app/Http/Requests/** - Form validation classes
-- **app/Settings/** - Settings classes (GeneralSettings)
+- **app/Models/** - Core models
+- **app/Models/Modules/** - Module models organized by module
+- **app/Services/Modules/** - Business logic services
 - **routes/web.php** - Main routes
-- **routes/settings.php** - Settings routes
 - **routes/admin.php** - Admin routes (protected by permissions)
+- **routes/modules/** - Module-specific routes
 - **routes/api.php** - API routes (Sanctum)
 
 ### Frontend Structure
 - **resources/js/pages/** - Inertia pages (auto-routed)
 - **resources/js/pages/admin/** - Admin pages (users, roles, permissions, activity-logs, settings)
+- **resources/js/pages/teacher/** - Teacher pages
+- **resources/js/pages/student/** - Student pages
+- **resources/js/pages/modules/** - Module pages organized by module
 - **resources/js/components/ui/** - shadcn/ui components
-- **resources/js/components/** - Custom components (language-switcher)
+- **resources/js/components/** - Custom components
 - **resources/js/layouts/** - App, Auth, Settings layouts
-- **resources/js/hooks/** - React hooks (appearance, 2FA)
+- **resources/js/hooks/** - React hooks
 - **resources/js/routes/** - Auto-generated type-safe routes (Wayfinder)
 - **resources/js/lib/** - Library configs (i18n)
 - **resources/js/locales/** - Translation files (en, id)
 
+### Database Structure
+- **database/migrations/core/** - Core tables (users, roles, etc.)
+- **database/migrations/master/** - Master data tables
+- **database/migrations/ppdb/** - PPDB module tables
+- **database/migrations/attendance/** - Attendance module tables
+- **database/migrations/lms/** - LMS module tables
+- **database/migrations/cbt/** - CBT module tables
+- **database/migrations/academic/** - Academic module tables
+
 ### Key Integrations
 - **Inertia.js** - Server-side routing with React SPA behavior
-- **Laravel Wayfinder** - Auto-generates TypeScript route helpers in `resources/js/routes/`
+- **Laravel Wayfinder** - Auto-generates TypeScript route helpers
 - **Fortify** - Handles auth, 2FA, email verification, password reset
 - **Spatie Permission** - Role and permission management
 - **Spatie Activitylog** - Automatic activity logging for models
 - **Spatie Medialibrary** - File uploads and media management
-- **Spatie Settings** - Strongly-typed application settings
+- **Maatwebsite Excel** - Import/export Excel files
 - **Laravel Sanctum** - API token authentication
-- **react-i18next** - Internationalization with English and Indonesian translations
+- **react-i18next** - Internationalization with English and Indonesian
 
-### Admin Features
-- **User Management** - CRUD with role assignment
-- **Role Management** - CRUD with permission assignment
-- **Permission Management** - Create and delete permissions
-- **Activity Logs** - View all model activity with search/pagination
-- **Settings** - Manage site name, description, timezone, date format, locale
+### Module Configuration
+Modules can be enabled/disabled in `config/modules.php`:
+```php
+return [
+    'ppdb' => ['name' => 'Student Admission', 'enabled' => true],
+    'attendance' => ['name' => 'Attendance', 'enabled' => true],
+    'lms' => ['name' => 'Learning Management', 'enabled' => true],
+    'cbt' => ['name' => 'Computer Based Test', 'enabled' => true],
+    'academic' => ['name' => 'Academic & Reports', 'enabled' => true],
+];
+```
+
+### User Roles
+- **Admin**: Full system access, module management
+- **Teacher**: Classes, materials, exams, grading
+- **Student**: Learning, exams, submissions
+- **Parent**: View child progress, attendance
 
 ### Default Admin Account
 - Email: `admin@example.com`
@@ -95,6 +130,7 @@ Pest PHP with SQLite in-memory. Tests located in `tests/Feature/` covering:
 - Auth flows (login, register, 2FA, password reset, email verification)
 - Settings (profile, password, 2FA management)
 - Admin features (user management, role management with permissions)
+- Module features (PPDB, Attendance, LMS, CBT, Academic)
 
 ## Configuration Notes
 
@@ -109,3 +145,31 @@ Pest PHP with SQLite in-memory. Tests located in `tests/Feature/` covering:
 - Prettier: 80 char width, 4-space tabs, semicolons, single quotes
 - ESLint: React hooks rules enabled
 - Tailwind CSS v4 with oklch() colors for dark mode
+- All database columns and variables in English
+
+## Documentation
+
+Full documentation is available in `docs/`:
+- [Architecture](./docs/architecture.md)
+- [Module Documentation](./docs/modules/)
+- [Database Schema](./docs/database/schema.md)
+- [Development Roadmap](./docs/development/roadmap.md)
+
+## Naming Conventions
+
+### Database Tables
+- Use English names (e.g., `students`, not `siswa`)
+- Snake_case for table and column names
+- Plural for table names
+
+### Models
+- Singular PascalCase (e.g., `Student`, `Teacher`)
+- Place in `app/Models/Modules/{Module}/` for module-specific models
+
+### Controllers
+- Plural PascalCase with Controller suffix
+- Place in `app/Http/Controllers/Modules/{Module}/`
+
+### Permissions
+- Format: `module.resource.action`
+- Examples: `ppdb.registrations.verify`, `cbt.exams.schedule`

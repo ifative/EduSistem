@@ -34,7 +34,7 @@ export default function TeachersEdit({ teacher }: Props) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Edit Teacher" />
-            <div className="flex flex-col gap-6 p-6">
+            <div className="flex flex-col gap-4 p-4">
                 <h1 className="text-2xl font-bold">Edit Teacher</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <Card>

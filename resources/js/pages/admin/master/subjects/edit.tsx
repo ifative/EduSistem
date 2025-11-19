@@ -20,7 +20,7 @@ export default function SubjectsEdit({ subject, groups }: Props) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Edit Subject" />
-            <div className="flex flex-col gap-6 p-6">
+            <div className="flex flex-col gap-4 p-4">
                 <h1 className="text-2xl font-bold">Edit Subject</h1>
                 <Card>
                     <CardHeader><CardTitle>Subject Information</CardTitle></CardHeader>

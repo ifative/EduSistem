@@ -32,7 +32,7 @@ export default function AcademicYearsCreate() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Academic Year" />
 
-            <div className="flex flex-col gap-6 p-6">
+            <div className="flex flex-col gap-4 p-4">
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Create Academic Year</h1>
                 </div>

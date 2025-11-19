@@ -60,7 +60,7 @@ export default function StudentsShow({ student }: Props) {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`Student: ${student.name}`} />
 
-            <div className="flex flex-col gap-6 p-6">
+            <div className="flex flex-col gap-4 p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <Link href="/admin/master/students">

@@ -16,7 +16,7 @@ export default function MajorsCreate() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Create Major" />
-            <div className="flex flex-col gap-6 p-6">
+            <div className="flex flex-col gap-4 p-4">
                 <h1 className="text-2xl font-bold">Create Major</h1>
                 <Card>
                     <CardHeader><CardTitle>Major Information</CardTitle></CardHeader>

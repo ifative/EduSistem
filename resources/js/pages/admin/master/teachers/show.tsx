@@ -25,7 +25,7 @@ export default function TeachersShow({ teacher }: Props) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`Teacher: ${teacher.name}`} />
-            <div className="flex flex-col gap-6 p-6">
+            <div className="flex flex-col gap-4 p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <Link href="/admin/master/teachers"><Button variant="ghost" size="icon"><ArrowLeftIcon className="h-4 w-4" /></Button></Link>

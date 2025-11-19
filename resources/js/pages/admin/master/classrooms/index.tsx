@@ -33,7 +33,7 @@ export default function ClassroomsIndex({ classrooms, levels, majors, filters }:
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Classrooms" />
-            <div className="flex flex-col gap-6 p-6">
+            <div className="flex flex-col gap-4 p-4">
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Classrooms</h1>
                     <Link href="/admin/master/classrooms/create"><Button><PlusIcon className="mr-2 h-4 w-4" />Add Classroom</Button></Link>

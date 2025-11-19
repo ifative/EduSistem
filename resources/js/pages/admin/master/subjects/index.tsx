@@ -27,7 +27,7 @@ export default function SubjectsIndex({ subjects, filters, groups }: Props) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Subjects" />
-            <div className="flex flex-col gap-6 p-6">
+            <div className="flex flex-col gap-4 p-4">
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Subjects</h1>
                     <Link href="/admin/master/subjects/create"><Button><PlusIcon className="mr-2 h-4 w-4" />Add Subject</Button></Link>

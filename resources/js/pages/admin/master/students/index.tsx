@@ -112,7 +112,7 @@ export default function StudentsIndex({ students, classrooms, filters }: Props) 
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Students" />
 
-            <div className="flex flex-col gap-6 p-6">
+            <div className="flex flex-col gap-4 p-4">
                 <div className="flex items-center justify-between">
                     <h1 className="text-2xl font-bold">Students</h1>
                     <div className="flex gap-2">

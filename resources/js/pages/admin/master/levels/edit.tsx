@@ -19,7 +19,7 @@ export default function LevelsEdit({ level }: Props) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Edit Level" />
-            <div className="flex flex-col gap-6 p-6">
+            <div className="flex flex-col gap-4 p-4">
                 <h1 className="text-2xl font-bold">Edit Level</h1>
                 <Card>
                     <CardHeader><CardTitle>Level Information</CardTitle></CardHeader>

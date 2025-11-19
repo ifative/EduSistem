@@ -35,7 +35,7 @@ export default function ClassroomsEdit({ classroom, levels, majors, teachers }: 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Edit Classroom" />
-            <div className="flex flex-col gap-6 p-6">
+            <div className="flex flex-col gap-4 p-4">
                 <h1 className="text-2xl font-bold">Edit Classroom</h1>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <Card>

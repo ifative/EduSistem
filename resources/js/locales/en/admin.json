@@ -1,0 +1,42 @@
+{
+    "users": {
+        "title": "Users Management",
+        "add": "Add User",
+        "edit": "Edit User",
+        "create": "Create User",
+        "name": "Name",
+        "email": "Email",
+        "password": "Password",
+        "roles": "Roles",
+        "search_placeholder": "Search users..."
+    },
+    "roles": {
+        "title": "Roles Management",
+        "add": "Add Role",
+        "edit": "Edit Role",
+        "create": "Create Role",
+        "name": "Role Name",
+        "permissions": "Permissions"
+    },
+    "permissions": {
+        "title": "Permissions Management",
+        "add": "Add Permission",
+        "create": "Create Permission",
+        "name": "Permission Name"
+    },
+    "activity_logs": {
+        "title": "Activity Logs",
+        "description": "Description",
+        "causer": "Causer",
+        "subject": "Subject",
+        "date": "Date"
+    },
+    "settings": {
+        "title": "General Settings",
+        "site_name": "Site Name",
+        "site_description": "Site Description",
+        "timezone": "Timezone",
+        "date_format": "Date Format",
+        "locale": "Locale"
+    }
+}

@@ -1,0 +1,32 @@
+{
+    "nav": {
+        "dashboard": "Dasbor",
+        "settings": "Pengaturan",
+        "logout": "Keluar"
+    },
+    "auth": {
+        "login": "Masuk",
+        "register": "Daftar",
+        "email": "Email",
+        "password": "Kata Sandi",
+        "remember_me": "Ingat saya",
+        "forgot_password": "Lupa kata sandi?",
+        "confirm_password": "Konfirmasi kata sandi",
+        "name": "Nama"
+    },
+    "actions": {
+        "save": "Simpan",
+        "cancel": "Batal",
+        "delete": "Hapus",
+        "edit": "Ubah",
+        "create": "Buat",
+        "update": "Perbarui",
+        "search": "Cari",
+        "back": "Kembali"
+    },
+    "messages": {
+        "success": "Operasi berhasil",
+        "error": "Terjadi kesalahan",
+        "confirm_delete": "Apakah Anda yakin ingin menghapus ini?"
+    }
+}

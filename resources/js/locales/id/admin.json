@@ -1,0 +1,42 @@
+{
+    "users": {
+        "title": "Manajemen Pengguna",
+        "add": "Tambah Pengguna",
+        "edit": "Ubah Pengguna",
+        "create": "Buat Pengguna",
+        "name": "Nama",
+        "email": "Email",
+        "password": "Kata Sandi",
+        "roles": "Peran",
+        "search_placeholder": "Cari pengguna..."
+    },
+    "roles": {
+        "title": "Manajemen Peran",
+        "add": "Tambah Peran",
+        "edit": "Ubah Peran",
+        "create": "Buat Peran",
+        "name": "Nama Peran",
+        "permissions": "Izin"
+    },
+    "permissions": {
+        "title": "Manajemen Izin",
+        "add": "Tambah Izin",
+        "create": "Buat Izin",
+        "name": "Nama Izin"
+    },
+    "activity_logs": {
+        "title": "Log Aktivitas",
+        "description": "Deskripsi",
+        "causer": "Pelaku",
+        "subject": "Subjek",
+        "date": "Tanggal"
+    },
+    "settings": {
+        "title": "Pengaturan Umum",
+        "site_name": "Nama Situs",
+        "site_description": "Deskripsi Situs",
+        "timezone": "Zona Waktu",
+        "date_format": "Format Tanggal",
+        "locale": "Bahasa"
+    }
+}

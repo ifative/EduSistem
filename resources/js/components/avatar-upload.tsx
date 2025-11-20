@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { router } from '@inertiajs/react';
 import { Camera, Loader2, Trash2, User } from 'lucide-react';
 import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 
 interface AvatarUploadProps {
@@ -14,6 +15,7 @@ export function AvatarUpload({ currentAvatar, userName }: AvatarUploadProps) {
     const [isUploading, setIsUploading] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [preview, setPreview] = useState<string | null>(null);
+    const { t } = useTranslation('common');
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -21,13 +23,13 @@ export function AvatarUpload({ currentAvatar, userName }: AvatarUploadProps) {
 
         // Validate file type
         if (!file.type.startsWith('image/')) {
-            toast.error('Please select an image file');
+            toast.error(t('settings.select_image'));
             return;
         }
 
         // Validate file size (2MB)
         if (file.size > 2 * 1024 * 1024) {
-            toast.error('Image must be less than 2MB');
+            toast.error(t('settings.image_too_large'));
             return;
         }
 
@@ -46,11 +48,11 @@ export function AvatarUpload({ currentAvatar, userName }: AvatarUploadProps) {
         router.post('/settings/profile/avatar', formData, {
             forceFormData: true,
             onSuccess: () => {
-                toast.success('Avatar updated successfully');
+                toast.success(t('settings.avatar_updated'));
                 setPreview(null);
             },
             onError: (errors) => {
-                toast.error(errors.avatar || 'Failed to upload avatar');
+                toast.error(errors.avatar || t('settings.avatar_update_error'));
                 setPreview(null);
             },
             onFinish: () => {
@@ -66,10 +68,10 @@ export function AvatarUpload({ currentAvatar, userName }: AvatarUploadProps) {
         setIsDeleting(true);
         router.delete('/settings/profile/avatar', {
             onSuccess: () => {
-                toast.success('Avatar removed successfully');
+                toast.success(t('settings.avatar_removed'));
             },
             onError: () => {
-                toast.error('Failed to remove avatar');
+                toast.error(t('settings.avatar_remove_error'));
             },
             onFinish: () => {
                 setIsDeleting(false);
@@ -110,7 +112,7 @@ export function AvatarUpload({ currentAvatar, userName }: AvatarUploadProps) {
                         disabled={isUploading || isDeleting}
                     >
                         <Camera className="mr-2 h-4 w-4" />
-                        {currentAvatar ? 'Change' : 'Upload'}
+                        {currentAvatar ? t('settings.change') : t('actions.update')}
                     </Button>
                     {currentAvatar && (
                         <Button
@@ -125,12 +127,12 @@ export function AvatarUpload({ currentAvatar, userName }: AvatarUploadProps) {
                             ) : (
                                 <Trash2 className="mr-2 h-4 w-4" />
                             )}
-                            Remove
+                            {t('settings.remove')}
                         </Button>
                     )}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                    JPG, PNG or GIF. Max 2MB.
+                    {t('settings.avatar_hint')}
                 </p>
             </div>
 

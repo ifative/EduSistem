@@ -14,53 +14,72 @@ Implementation phases for EduSistem.
 - [x] Export functionality
 
 ### Master Data Module
-- [ ] Database migrations
-  - [ ] academic_years, semesters
-  - [ ] levels, majors, subjects
-  - [ ] students, teachers
-  - [ ] classrooms, relationships
-  - [ ] extracurriculars
-- [ ] Models with relationships
-- [ ] API Controllers
-- [ ] Form requests & validation
-- [ ] Admin pages (CRUD)
-  - [ ] Academic years management
-  - [ ] Students management with import/export
-  - [ ] Teachers management
-  - [ ] Classrooms with student enrollment
-  - [ ] Subjects management
-- [ ] Permissions seeder
+- [x] Database migrations
+  - [x] academic_years, semesters
+  - [x] levels, majors, subjects
+  - [x] students, teachers
+  - [x] classrooms, relationships
+  - [x] extracurriculars
+- [x] Models with relationships
+- [x] API Controllers
+- [x] Form requests & validation
+- [x] Admin pages (CRUD)
+  - [x] Academic years management
+  - [x] Students management with import/export
+  - [x] Teachers management
+  - [x] Classrooms with student enrollment
+  - [x] Subjects management
+  - [x] Levels management
+  - [x] Majors management
+  - [x] Extracurriculars management
+- [x] Permissions seeder
+- [x] Internationalization (i18n) for all pages
 
 **Deliverable**: Complete master data management with import/export
 
 ## Phase 2: PPDB Module
 
 ### Backend
-- [ ] Database migrations
-  - [ ] admission_periods, paths, requirements
-  - [ ] registrations, documents
-  - [ ] scores, achievements
-  - [ ] selections, payments
-- [ ] Models with relationships
-- [ ] Registration service
-- [ ] Selection algorithms
-  - [ ] Zonasi (distance-based)
-  - [ ] Achievement (score + certificates)
-  - [ ] Affirmation
-- [ ] Document verification workflow
-- [ ] Payment integration
+- [x] Database migrations
+  - [x] admission_periods, paths, requirements
+  - [x] registrations, documents
+  - [x] scores, achievements
+  - [x] selections, payments
+- [x] Models with relationships
+- [x] Registration service
+- [x] Selection algorithms
+  - [x] Zonasi (distance-based)
+  - [x] Achievement (score + certificates)
+  - [x] Affirmation
+  - [x] Reguler
+- [x] Document verification workflow
+- [x] Email notifications
+  - [x] Registration submitted
+  - [x] Document verification
+  - [x] Selection results
+- [x] Export registrations to Excel
+- [x] Payment model (manual processing)
 
 ### Frontend
-- [ ] Public registration form (multi-step)
-- [ ] Document upload interface
-- [ ] Registration status check
-- [ ] Admin period management
-- [ ] Admin path configuration
-- [ ] Admin document verification
-- [ ] Admin selection runner
-- [ ] Reports & statistics
+- [x] Public registration form (multi-step)
+- [x] Document upload interface
+- [x] Registration status check
+- [x] Admin period management
+- [x] Admin path configuration
+- [x] Admin document verification
+- [x] Admin selection runner
+- [x] Reports & statistics
+- [x] Internationalization (EN/ID)
 
-**Deliverable**: Complete online admission system
+### Testing
+- [x] Admission period CRUD tests
+- [x] Admission path CRUD tests
+- [x] Registration workflow tests
+- [x] Public registration tests
+- [x] Selection algorithm tests
+- [x] 39 PPDB tests (238 assertions)
+
+**Deliverable**: Complete online admission system ✅
 
 ## Phase 3: Attendance Module
 
@@ -225,6 +244,7 @@ Implementation phases for EduSistem.
 - [x] Spatie Activitylog
 - [x] Maatwebsite Excel
 - [x] Laravel Sanctum
+- [x] react-i18next (Internationalization EN/ID)
 
 ### To Add
 - [ ] Laravel DomPDF/Snappy (report cards)
@@ -241,9 +261,11 @@ Implementation phases for EduSistem.
 
 ### Feature Tests
 - [ ] API endpoint tests
-- [ ] Authentication tests
-- [ ] Permission tests
-- [ ] Workflow tests
+- [x] Authentication tests
+- [x] Permission tests
+- [x] Workflow tests (PPDB)
+- [x] Master Data CRUD tests
+- [x] PPDB module tests (39 tests)
 
 ### Integration Tests
 - [ ] Cross-module flows

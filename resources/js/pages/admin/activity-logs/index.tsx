@@ -10,21 +10,25 @@ import { Activity, Download, Loader2, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-import { columns, type ActivityLog } from './columns';
+import { useTranslation } from 'react-i18next';
+import { createColumns, type ActivityLog } from './columns';
 
 interface Props {
     activities: PaginatedData<ActivityLog>;
     filters: { search?: string };
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Activity Logs', href: '/admin/activity-logs' },
-];
-
 export default function ActivityLogsIndex({ activities, filters }: Props) {
+    const { t } = useTranslation();
     const [search, setSearch] = useState(filters.search || '');
     const [isSearching, setIsSearching] = useState(false);
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('admin:breadcrumbs.dashboard'), href: '/dashboard' },
+        { title: t('admin:breadcrumbs.activity_logs'), href: '/admin/activity-logs' },
+    ];
+
+    const columns = createColumns(t);
 
     const debouncedSearch = useDebouncedCallback((value: string) => {
         router.get('/admin/activity-logs', { search: value }, {
@@ -41,14 +45,14 @@ export default function ActivityLogsIndex({ activities, filters }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Activity Logs" />
+            <Head title={t('admin:activity_logs.title')} />
             <div className="flex h-full flex-1 flex-col gap-4 p-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">Activity Logs</h1>
+                    <h1 className="text-2xl font-bold">{t('admin:activity_logs.title')}</h1>
                     <a href="/admin/export/activity-logs">
                         <Button variant="outline">
                             <Download className="mr-2 h-4 w-4" />
-                            Export
+                            {t('common:export.export')}
                         </Button>
                     </a>
                 </div>
@@ -59,7 +63,7 @@ export default function ActivityLogsIndex({ activities, filters }: Props) {
                             <div className="relative w-full sm:w-72">
                                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                 <Input
-                                    placeholder="Search activities..."
+                                    placeholder={t('admin:activity_logs.search_placeholder')}
                                     value={search}
                                     onChange={(e) => handleSearchChange(e.target.value)}
                                     className="pl-10"
@@ -73,8 +77,8 @@ export default function ActivityLogsIndex({ activities, filters }: Props) {
                         {activities.data.length === 0 ? (
                             <EmptyState
                                 icon={<Activity className="h-12 w-12" />}
-                                title="No activity logs found"
-                                description={search ? 'Try adjusting your search terms' : 'Activity logs will appear here when actions are performed'}
+                                title={t('admin:activity_logs.empty_title')}
+                                description={search ? t('admin:activity_logs.empty_search') : t('admin:activity_logs.empty_description')}
                             />
                         ) : (
                             <>

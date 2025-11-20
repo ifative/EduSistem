@@ -3,6 +3,7 @@ import { login } from '@/routes';
 import { email } from '@/routes/password';
 import { Form, Head } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
@@ -12,12 +13,14 @@ import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 
 export default function ForgotPassword({ status }: { status?: string }) {
+    const { t } = useTranslation('common');
+
     return (
         <AuthLayout
-            title="Forgot password"
-            description="Enter your email to receive a password reset link"
+            title={t('auth.forgot_password_title')}
+            description={t('auth.forgot_password_description')}
         >
-            <Head title="Forgot password" />
+            <Head title={t('auth.forgot_password_title')} />
 
             {status && (
                 <div className="mb-4 text-center text-sm font-medium text-green-600">
@@ -30,7 +33,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
                     {({ processing, errors }) => (
                         <>
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
+                                <Label htmlFor="email">{t('auth.email_address')}</Label>
                                 <Input
                                     id="email"
                                     type="email"
@@ -52,7 +55,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
                                     {processing && (
                                         <LoaderCircle className="h-4 w-4 animate-spin" />
                                     )}
-                                    Email password reset link
+                                    {t('auth.email_reset_link')}
                                 </Button>
                             </div>
                         </>
@@ -60,8 +63,8 @@ export default function ForgotPassword({ status }: { status?: string }) {
                 </Form>
 
                 <div className="space-x-1 text-center text-sm text-muted-foreground">
-                    <span>Or, return to</span>
-                    <TextLink href={login()}>log in</TextLink>
+                    <span>{t('auth.or_return_to')}</span>
+                    <TextLink href={login()}>{t('auth.login')}</TextLink>
                 </div>
             </div>
         </AuthLayout>

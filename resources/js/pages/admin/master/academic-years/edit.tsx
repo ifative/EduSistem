@@ -1,4 +1,5 @@
 import { Head, Link, useForm } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,20 +21,21 @@ interface Props {
     academicYear: AcademicYear;
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Master Data', href: '#' },
-    { title: 'Academic Years', href: '/admin/master/academic-years' },
-    { title: 'Edit', href: '#' },
-];
-
 export default function AcademicYearsEdit({ academicYear }: Props) {
+    const { t } = useTranslation(['admin', 'common']);
     const { data, setData, put, processing, errors } = useForm({
         name: academicYear.name,
         start_date: academicYear.start_date.split('T')[0],
         end_date: academicYear.end_date.split('T')[0],
         is_active: academicYear.is_active,
     });
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('breadcrumbs.dashboard'), href: '/dashboard' },
+        { title: t('breadcrumbs.master_data'), href: '#' },
+        { title: t('breadcrumbs.academic_years'), href: '/admin/master/academic-years' },
+        { title: t('breadcrumbs.edit'), href: '#' },
+    ];
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -42,22 +44,22 @@ export default function AcademicYearsEdit({ academicYear }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Edit Academic Year" />
+            <Head title={t('academic_years.edit')} />
 
             <div className="flex flex-col gap-4 p-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">Edit Academic Year</h1>
+                    <h1 className="text-2xl font-bold">{t('academic_years.edit')}</h1>
                 </div>
 
                 <Card>
                     <CardHeader>
-                        <CardTitle>Academic Year Details</CardTitle>
+                        <CardTitle>{t('academic_years.academic_year_info')}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="name">Name</Label>
+                                    <Label htmlFor="name">{t('academic_years.name')}</Label>
                                     <Input
                                         id="name"
                                         placeholder="e.g., 2024/2025"
@@ -72,7 +74,7 @@ export default function AcademicYearsEdit({ academicYear }: Props) {
 
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="start_date">Start Date</Label>
+                                    <Label htmlFor="start_date">{t('academic_years.start_date')}</Label>
                                     <Input
                                         id="start_date"
                                         type="date"
@@ -84,7 +86,7 @@ export default function AcademicYearsEdit({ academicYear }: Props) {
                                     )}
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="end_date">End Date</Label>
+                                    <Label htmlFor="end_date">{t('academic_years.end_date')}</Label>
                                     <Input
                                         id="end_date"
                                         type="date"
@@ -103,16 +105,16 @@ export default function AcademicYearsEdit({ academicYear }: Props) {
                                     checked={data.is_active}
                                     onCheckedChange={(checked) => setData('is_active', checked)}
                                 />
-                                <Label htmlFor="is_active">Set as active year</Label>
+                                <Label htmlFor="is_active">{t('academic_years.set_active')}</Label>
                             </div>
 
                             <div className="flex gap-4">
                                 <Button type="submit" disabled={processing}>
-                                    {processing ? 'Saving...' : 'Save Changes'}
+                                    {processing ? t('academic_years.updating') : t('common:actions.save')}
                                 </Button>
                                 <Link href="/admin/master/academic-years">
                                     <Button type="button" variant="outline">
-                                        Cancel
+                                        {t('common:actions.cancel')}
                                     </Button>
                                 </Link>
                             </div>

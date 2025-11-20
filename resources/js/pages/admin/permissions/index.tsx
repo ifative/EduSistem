@@ -9,6 +9,7 @@ import { type BreadcrumbItem, type PaginatedData, type Permission } from '@/type
 import { Head, Link, router } from '@inertiajs/react';
 import { Plus, ShieldCheck } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { createColumns } from './columns';
 
@@ -16,12 +17,14 @@ interface Props {
     permissions: PaginatedData<Permission>;
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Permissions', href: '/admin/permissions' },
-];
-
 export default function PermissionsIndex({ permissions }: Props) {
+    const { t } = useTranslation();
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('admin:breadcrumbs.dashboard'), href: '/dashboard' },
+        { title: t('admin:breadcrumbs.permissions'), href: '/admin/permissions' },
+    ];
+
     const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; permission: Permission | null; isLoading: boolean }>({
         open: false,
         permission: null,
@@ -39,31 +42,31 @@ export default function PermissionsIndex({ permissions }: Props) {
 
         router.delete(`/admin/permissions/${deleteDialog.permission.id}`, {
             onSuccess: () => {
-                toast.success('Permission deleted successfully');
+                toast.success(t('admin:permissions.deleted_success'));
                 setDeleteDialog({ open: false, permission: null, isLoading: false });
             },
             onError: () => {
-                toast.error('Failed to delete permission');
+                toast.error(t('admin:permissions.deleted_error'));
                 setDeleteDialog((prev) => ({ ...prev, isLoading: false }));
             },
         });
     };
 
     const columns = useMemo(
-        () => createColumns({ onDelete: handleDeleteClick }),
-        [],
+        () => createColumns({ onDelete: handleDeleteClick, t }),
+        [t],
     );
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Permissions Management" />
+            <Head title={t('admin:permissions.title')} />
             <div className="flex h-full flex-1 flex-col gap-4 p-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">Permissions Management</h1>
+                    <h1 className="text-2xl font-bold">{t('admin:permissions.title')}</h1>
                     <Link href="/admin/permissions/create">
                         <Button>
                             <Plus className="mr-2 h-4 w-4" />
-                            Add Permission
+                            {t('admin:permissions.add')}
                         </Button>
                     </Link>
                 </div>
@@ -73,13 +76,13 @@ export default function PermissionsIndex({ permissions }: Props) {
                         {permissions.data.length === 0 ? (
                             <EmptyState
                                 icon={<ShieldCheck className="h-12 w-12" />}
-                                title="No permissions found"
-                                description="Get started by creating your first permission"
+                                title={t('admin:permissions.empty_title')}
+                                description={t('admin:permissions.empty_description')}
                                 action={
                                     <Link href="/admin/permissions/create">
                                         <Button>
                                             <Plus className="mr-2 h-4 w-4" />
-                                            Add Permission
+                                            {t('admin:permissions.add')}
                                         </Button>
                                     </Link>
                                 }
@@ -97,9 +100,9 @@ export default function PermissionsIndex({ permissions }: Props) {
             <ConfirmDialog
                 open={deleteDialog.open}
                 onOpenChange={(open) => setDeleteDialog({ open, permission: null, isLoading: false })}
-                title="Delete permission?"
-                description={`Are you sure you want to delete ${deleteDialog.permission?.name}? This action cannot be undone.`}
-                confirmText="Delete"
+                title={t('admin:permissions.delete_title')}
+                description={t('admin:permissions.delete_description', { name: deleteDialog.permission?.name })}
+                confirmText={t('common:dialog.delete')}
                 variant="destructive"
                 isLoading={deleteDialog.isLoading}
                 onConfirm={handleDeleteConfirm}

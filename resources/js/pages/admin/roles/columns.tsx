@@ -16,21 +16,23 @@ import {
 import { type Permission, type Role } from '@/types';
 import { Link } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
+import { TFunction } from 'i18next';
 import { ArrowUpDown, Check, MoreHorizontal, Pencil, Trash2, X } from 'lucide-react';
 
 export type RoleWithPermissions = Role & { permissions: Permission[] };
 
 interface ColumnOptions {
     onDelete: (role: Role) => void;
+    t: TFunction;
 }
 
-// Module configuration
+// Module configuration with translation keys
 const MODULES = [
-    { key: 'users', label: 'Users', actions: ['view', 'create', 'edit', 'delete'] },
-    { key: 'roles', label: 'Roles', actions: ['view', 'create', 'edit', 'delete'] },
-    { key: 'permissions', label: 'Permissions', actions: ['view', 'create', 'edit', 'delete'] },
-    { key: 'activity-logs', label: 'Logs', actions: ['view'] },
-    { key: 'settings', label: 'Settings', actions: ['view', 'edit'] },
+    { key: 'users', labelKey: 'users', actions: ['view', 'create', 'edit', 'delete'] },
+    { key: 'roles', labelKey: 'roles', actions: ['view', 'create', 'edit', 'delete'] },
+    { key: 'permissions', labelKey: 'permissions', actions: ['view', 'create', 'edit', 'delete'] },
+    { key: 'activity-logs', labelKey: 'logs', actions: ['view'] },
+    { key: 'settings', labelKey: 'settings', actions: ['view', 'edit'] },
 ];
 
 // Helper to check if role has permission
@@ -48,7 +50,7 @@ const getModuleAccess = (permissions: Permission[], module: { key: string; actio
     return 'none';
 };
 
-export const createColumns = ({ onDelete }: ColumnOptions): ColumnDef<RoleWithPermissions>[] => [
+export const createColumns = ({ onDelete, t }: ColumnOptions): ColumnDef<RoleWithPermissions>[] => [
     {
         accessorKey: 'name',
         header: ({ column }) => {
@@ -58,7 +60,7 @@ export const createColumns = ({ onDelete }: ColumnOptions): ColumnDef<RoleWithPe
                     onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
                     className="-ml-4"
                 >
-                    Name
+                    {t('common:table.name')}
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
@@ -67,7 +69,7 @@ export const createColumns = ({ onDelete }: ColumnOptions): ColumnDef<RoleWithPe
     },
     {
         accessorKey: 'permissions',
-        header: 'Permissions',
+        header: t('admin:roles.permissions'),
         cell: ({ row }) => {
             const permissions = row.original.permissions;
 
@@ -79,13 +81,14 @@ export const createColumns = ({ onDelete }: ColumnOptions): ColumnDef<RoleWithPe
                             const grantedActions = module.actions.filter(action =>
                                 hasPermission(permissions, module.key, action)
                             );
+                            const moduleLabel = t(`admin:roles.modules.${module.labelKey}`);
 
                             return (
                                 <Tooltip key={module.key}>
                                     <TooltipTrigger asChild>
                                         <div className="flex flex-col items-center gap-0.5">
                                             <span className="text-[10px] text-muted-foreground uppercase tracking-wide">
-                                                {module.label}
+                                                {moduleLabel}
                                             </span>
                                             <div className={`
                                                 flex h-6 w-6 items-center justify-center rounded
@@ -106,13 +109,13 @@ export const createColumns = ({ onDelete }: ColumnOptions): ColumnDef<RoleWithPe
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <div className="text-xs">
-                                            <p className="font-medium">{module.label}</p>
+                                            <p className="font-medium">{moduleLabel}</p>
                                             {grantedActions.length > 0 ? (
                                                 <p className="text-muted-foreground">
                                                     {grantedActions.join(', ')}
                                                 </p>
                                             ) : (
-                                                <p className="text-muted-foreground">No access</p>
+                                                <p className="text-muted-foreground">{t('admin:roles.no_access')}</p>
                                             )}
                                         </div>
                                     </TooltipContent>
@@ -126,24 +129,24 @@ export const createColumns = ({ onDelete }: ColumnOptions): ColumnDef<RoleWithPe
     },
     {
         id: 'actions',
-        header: () => <span className="sr-only">Actions</span>,
+        header: () => <span className="sr-only">{t('common:table.actions')}</span>,
         cell: ({ row }) => {
             const role = row.original;
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
+                            <span className="sr-only">{t('admin:roles.open_menu', 'Open menu')}</span>
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuLabel>{t('common:table.actions')}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
                             <Link href={`/admin/roles/${role.id}/edit`}>
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                                {t('common:actions.edit')}
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem
@@ -152,7 +155,7 @@ export const createColumns = ({ onDelete }: ColumnOptions): ColumnDef<RoleWithPe
                             disabled={role.name === 'admin'}
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            {t('common:actions.delete')}
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

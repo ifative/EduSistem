@@ -11,15 +11,17 @@ import {
 import { type Role, type User } from '@/types';
 import { Link } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
+import { TFunction } from 'i18next';
 import { ArrowUpDown, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 
 export type UserWithRoles = User & { roles: Role[] };
 
 interface ColumnOptions {
     onDelete: (user: User) => void;
+    t: TFunction;
 }
 
-export const createColumns = ({ onDelete }: ColumnOptions): ColumnDef<UserWithRoles>[] => [
+export const createColumns = ({ onDelete, t }: ColumnOptions): ColumnDef<UserWithRoles>[] => [
     {
         accessorKey: 'name',
         header: ({ column }) => {
@@ -29,7 +31,7 @@ export const createColumns = ({ onDelete }: ColumnOptions): ColumnDef<UserWithRo
                     onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
                     className="-ml-4"
                 >
-                    Name
+                    {t('admin:users.name')}
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
@@ -45,7 +47,7 @@ export const createColumns = ({ onDelete }: ColumnOptions): ColumnDef<UserWithRo
                     onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
                     className="-ml-4"
                 >
-                    Email
+                    {t('admin:users.email')}
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
@@ -53,7 +55,7 @@ export const createColumns = ({ onDelete }: ColumnOptions): ColumnDef<UserWithRo
     },
     {
         accessorKey: 'roles',
-        header: 'Roles',
+        header: t('admin:users.roles'),
         cell: ({ row }) => {
             const roles = row.original.roles;
             return (
@@ -69,24 +71,24 @@ export const createColumns = ({ onDelete }: ColumnOptions): ColumnDef<UserWithRo
     },
     {
         id: 'actions',
-        header: () => <span className="sr-only">Actions</span>,
+        header: () => <span className="sr-only">{t('admin:users.actions')}</span>,
         cell: ({ row }) => {
             const user = row.original;
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
+                            <span className="sr-only">{t('common:table.actions')}</span>
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuLabel>{t('admin:users.actions')}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
                             <Link href={`/admin/users/${user.id}/edit`}>
                                 <Pencil className="mr-2 h-4 w-4" />
-                                Edit
+                                {t('common:actions.edit')}
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem
@@ -94,7 +96,7 @@ export const createColumns = ({ onDelete }: ColumnOptions): ColumnDef<UserWithRo
                             className="text-destructive"
                         >
                             <Trash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            {t('common:actions.delete')}
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>

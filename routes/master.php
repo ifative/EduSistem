@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Master\MajorController;
 use App\Http\Controllers\Admin\Master\StudentController;
 use App\Http\Controllers\Admin\Master\SubjectController;
 use App\Http\Controllers\Admin\Master\TeacherController;
+use App\Http\Controllers\Admin\Master\ExtracurricularController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->prefix('admin/master')->name('admin.master.')->group(function () {
@@ -170,4 +171,24 @@ Route::middleware(['auth', 'verified'])->prefix('admin/master')->name('admin.mas
     Route::delete('classrooms/{classroom}/students/{student}', [ClassroomController::class, 'removeStudent'])
         ->name('classrooms.remove-student')
         ->middleware('permission:master.classrooms.edit');
+
+    // Extracurriculars
+    Route::get('extracurriculars', [ExtracurricularController::class, 'index'])
+        ->name('extracurriculars.index')
+        ->middleware('permission:master.extracurriculars.view');
+    Route::get('extracurriculars/create', [ExtracurricularController::class, 'create'])
+        ->name('extracurriculars.create')
+        ->middleware('permission:master.extracurriculars.create');
+    Route::post('extracurriculars', [ExtracurricularController::class, 'store'])
+        ->name('extracurriculars.store')
+        ->middleware('permission:master.extracurriculars.create');
+    Route::get('extracurriculars/{extracurricular}/edit', [ExtracurricularController::class, 'edit'])
+        ->name('extracurriculars.edit')
+        ->middleware('permission:master.extracurriculars.edit');
+    Route::put('extracurriculars/{extracurricular}', [ExtracurricularController::class, 'update'])
+        ->name('extracurriculars.update')
+        ->middleware('permission:master.extracurriculars.edit');
+    Route::delete('extracurriculars/{extracurricular}', [ExtracurricularController::class, 'destroy'])
+        ->name('extracurriculars.destroy')
+        ->middleware('permission:master.extracurriculars.delete');
 });

@@ -206,6 +206,78 @@ Pest PHP with SQLite in-memory. Tests located in `tests/Feature/` covering:
 - Tailwind CSS v4 with oklch() colors for dark mode
 - All database columns and variables in English
 
+## Internationalization (i18n)
+
+This project uses **react-i18next** for internationalization with Indonesian as the default language.
+
+### Translation File Structure
+```
+resources/js/locales/
+├── en/
+│   ├── common.json     # Shared translations (auth, settings, actions, table, pagination, status, dialog)
+│   └── admin.json      # Admin-specific translations (dashboard, users, roles, permissions, master data)
+└── id/
+    ├── common.json     # Indonesian translations
+    └── admin.json      # Indonesian admin translations
+```
+
+### Namespaces
+- **common**: Shared UI elements (auth, settings, actions, table, pagination, status, dialog, export)
+- **admin**: Admin module translations (dashboard, users, roles, permissions, activity_logs, settings, media, students, teachers, classrooms, subjects, academic_years, levels, majors)
+
+### Usage Pattern
+```typescript
+import { useTranslation } from 'react-i18next';
+
+export default function MyComponent() {
+    const { t } = useTranslation(['admin', 'common']);
+
+    // Single namespace
+    const title = t('users.title');
+
+    // Cross-namespace
+    const cancelBtn = t('common:actions.cancel');
+
+    // With interpolation
+    const message = t('dashboard.by_user', { name: userName });
+
+    return <h1>{title}</h1>;
+}
+```
+
+### Translation Key Conventions
+- Use dot notation for nesting: `users.created_success`
+- Group by feature/module: `students.`, `teachers.`, `classrooms.`
+- Common patterns:
+  - `{module}.title` - Page title
+  - `{module}.add` / `{module}.edit` / `{module}.create` - Action buttons
+  - `{module}.search_placeholder` - Search input placeholder
+  - `{module}.empty_title` - Empty state title
+  - `{module}.delete_title` / `{module}.delete_description` - Delete dialog
+  - `{module}.created_success` / `{module}.updated_success` / `{module}.deleted_success` - Toast messages
+  - `{module}.creating` / `{module}.updating` - Loading states
+
+### Breadcrumbs Translation
+Breadcrumbs must be defined inside the component to access the `t()` function:
+```typescript
+export default function MyPage() {
+    const { t } = useTranslation('admin');
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('breadcrumbs.dashboard'), href: '/dashboard' },
+        { title: t('breadcrumbs.users'), href: '/admin/users' },
+    ];
+
+    return <AppLayout breadcrumbs={breadcrumbs}>...</AppLayout>;
+}
+```
+
+### Adding New Translations
+1. Add keys to both `en/*.json` and `id/*.json`
+2. Follow existing key naming patterns
+3. Use interpolation `{{variable}}` for dynamic content
+4. Keep translations concise but clear
+
 ## Documentation
 
 Full documentation is available in `docs/`:

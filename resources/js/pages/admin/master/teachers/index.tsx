@@ -1,6 +1,7 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { PlusIcon, PencilIcon, TrashIcon, EyeIcon } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,16 +29,17 @@ interface Props {
     filters: { search?: string; status?: string };
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Master Data', href: '#' },
-    { title: 'Teachers', href: '/admin/master/teachers' },
-];
-
 export default function TeachersIndex({ teachers, filters }: Props) {
+    const { t } = useTranslation(['admin', 'common']);
     const [search, setSearch] = useState(filters.search || '');
     const [status, setStatus] = useState(filters.status || '__all__');
     const [deleteId, setDeleteId] = useState<number | null>(null);
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('breadcrumbs.dashboard'), href: '/dashboard' },
+        { title: t('breadcrumbs.master_data'), href: '#' },
+        { title: t('breadcrumbs.teachers'), href: '/admin/master/teachers' },
+    ];
 
     const handleFilter = () => {
         router.get('/admin/master/teachers', { search: search || undefined, status: status === '__all__' ? undefined : status }, { preserveState: true });
@@ -52,29 +54,29 @@ export default function TeachersIndex({ teachers, filters }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Teachers" />
+            <Head title={t('teachers.title')} />
             <div className="flex flex-col gap-4 p-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">Teachers</h1>
+                    <h1 className="text-2xl font-bold">{t('teachers.title')}</h1>
                     <Link href="/admin/master/teachers/create">
-                        <Button><PlusIcon className="mr-2 h-4 w-4" />Add Teacher</Button>
+                        <Button><PlusIcon className="mr-2 h-4 w-4" />{t('teachers.add')}</Button>
                     </Link>
                 </div>
                 <Card>
                     <CardHeader>
                         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                            <CardTitle>All Teachers</CardTitle>
+                            <CardTitle>{t('teachers.all_teachers')}</CardTitle>
                             <div className="flex flex-wrap gap-2">
-                                <Input placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-48" />
+                                <Input placeholder={t('teachers.search_placeholder')} value={search} onChange={(e) => setSearch(e.target.value)} className="w-48" />
                                 <Select value={status} onValueChange={setStatus}>
-                                    <SelectTrigger className="w-32"><SelectValue placeholder="Status" /></SelectTrigger>
+                                    <SelectTrigger className="w-32"><SelectValue placeholder={t('teachers.status.title')} /></SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="__all__">All</SelectItem>
-                                        <SelectItem value="active">Active</SelectItem>
-                                        <SelectItem value="inactive">Inactive</SelectItem>
+                                        <SelectItem value="__all__">{t('students.all_status')}</SelectItem>
+                                        <SelectItem value="active">{t('teachers.status.active')}</SelectItem>
+                                        <SelectItem value="inactive">{t('teachers.status.inactive')}</SelectItem>
                                     </SelectContent>
                                 </Select>
-                                <Button onClick={handleFilter} variant="secondary">Filter</Button>
+                                <Button onClick={handleFilter} variant="secondary">{t('common:actions.search')}</Button>
                             </div>
                         </div>
                     </CardHeader>
@@ -82,13 +84,13 @@ export default function TeachersIndex({ teachers, filters }: Props) {
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>NIP</TableHead>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Email</TableHead>
-                                    <TableHead>Phone</TableHead>
-                                    <TableHead>Homerooms</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead className="text-right">Actions</TableHead>
+                                    <TableHead>{t('teachers.nip')}</TableHead>
+                                    <TableHead>{t('teachers.name')}</TableHead>
+                                    <TableHead>{t('teachers.email')}</TableHead>
+                                    <TableHead>{t('teachers.phone')}</TableHead>
+                                    <TableHead>{t('teachers.homerooms')}</TableHead>
+                                    <TableHead>{t('teachers.status.title')}</TableHead>
+                                    <TableHead className="text-right">{t('common:table.actions')}</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -100,7 +102,9 @@ export default function TeachersIndex({ teachers, filters }: Props) {
                                         <TableCell>{teacher.phone}</TableCell>
                                         <TableCell>{teacher.homeroom_classrooms_count}</TableCell>
                                         <TableCell>
-                                            <Badge variant={teacher.status === 'active' ? 'default' : 'secondary'}>{teacher.status}</Badge>
+                                            <Badge variant={teacher.status === 'active' ? 'default' : 'secondary'}>
+                                                {teacher.status === 'active' ? t('teachers.status.active') : t('teachers.status.inactive')}
+                                            </Badge>
                                         </TableCell>
                                         <TableCell className="text-right">
                                             <div className="flex justify-end gap-2">
@@ -112,7 +116,7 @@ export default function TeachersIndex({ teachers, filters }: Props) {
                                     </TableRow>
                                 ))}
                                 {teachers.data.length === 0 && (
-                                    <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">No teachers found.</TableCell></TableRow>
+                                    <TableRow><TableCell colSpan={7} className="text-center py-8 text-muted-foreground">{t('teachers.empty_title')}</TableCell></TableRow>
                                 )}
                             </TableBody>
                         </Table>
@@ -122,12 +126,12 @@ export default function TeachersIndex({ teachers, filters }: Props) {
             <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
                 <AlertDialogContent>
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Delete Teacher</AlertDialogTitle>
-                        <AlertDialogDescription>Are you sure? This action cannot be undone.</AlertDialogDescription>
+                        <AlertDialogTitle>{t('teachers.delete_title')}</AlertDialogTitle>
+                        <AlertDialogDescription>{t('teachers.delete_description')}</AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+                        <AlertDialogCancel>{t('common:dialog.cancel')}</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDelete}>{t('common:dialog.delete')}</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

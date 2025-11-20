@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/tooltip';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, User } from 'lucide-react';
+import { TFunction } from 'i18next';
 
 export interface ActivityLog {
     id: number;
@@ -31,18 +32,18 @@ const getActionVariant = (description: string): 'default' | 'secondary' | 'outli
     return 'secondary';
 };
 
-// Extract action from description
-const getActionLabel = (description: string): string => {
+// Extract action from description and return translated label
+const getActionLabel = (description: string, t: TFunction): string => {
     const lower = description.toLowerCase();
-    if (lower.includes('deleted')) return 'Deleted';
-    if (lower.includes('created')) return 'Created';
-    if (lower.includes('updated')) return 'Updated';
-    if (lower.includes('logged in')) return 'Login';
-    if (lower.includes('logged out')) return 'Logout';
+    if (lower.includes('deleted')) return t('admin:activity_logs.events.deleted');
+    if (lower.includes('created')) return t('admin:activity_logs.events.created');
+    if (lower.includes('updated')) return t('admin:activity_logs.events.updated');
+    if (lower.includes('logged in')) return t('admin:activity_logs.events.login');
+    if (lower.includes('logged out')) return t('admin:activity_logs.events.logout');
     return description;
 };
 
-export const columns: ColumnDef<ActivityLog>[] = [
+export const createColumns = (t: TFunction): ColumnDef<ActivityLog>[] => [
     {
         accessorKey: 'description',
         header: ({ column }) => {
@@ -52,7 +53,7 @@ export const columns: ColumnDef<ActivityLog>[] = [
                     onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
                     className="-ml-4"
                 >
-                    Event
+                    {t('admin:activity_logs.event')}
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
@@ -61,14 +62,14 @@ export const columns: ColumnDef<ActivityLog>[] = [
             const description = row.getValue('description') as string;
             return (
                 <Badge variant={getActionVariant(description)} className="font-normal">
-                    {getActionLabel(description)}
+                    {getActionLabel(description, t)}
                 </Badge>
             );
         },
     },
     {
         id: 'subject',
-        header: 'Subject',
+        header: t('admin:activity_logs.subject'),
         cell: ({ row }) => {
             const activity = row.original;
             if (!activity.subject_type) {
@@ -88,13 +89,13 @@ export const columns: ColumnDef<ActivityLog>[] = [
     },
     {
         accessorKey: 'causer',
-        header: 'Performed By',
+        header: t('admin:activity_logs.causer'),
         cell: ({ row }) => {
             const causer = row.original.causer;
 
             if (!causer) {
                 return (
-                    <span className="text-muted-foreground">System</span>
+                    <span className="text-muted-foreground">{t('admin:activity_logs.system')}</span>
                 );
             }
 
@@ -126,7 +127,7 @@ export const columns: ColumnDef<ActivityLog>[] = [
                     onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
                     className="-ml-4"
                 >
-                    Date
+                    {t('admin:activity_logs.date')}
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );

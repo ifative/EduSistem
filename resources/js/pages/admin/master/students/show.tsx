@@ -1,5 +1,6 @@
 import { Head, Link } from '@inertiajs/react';
 import { PencilIcon, ArrowLeftIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -38,14 +39,16 @@ interface Props {
     student: Student;
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Master Data', href: '#' },
-    { title: 'Students', href: '/admin/master/students' },
-    { title: 'Detail', href: '#' },
-];
-
 export default function StudentsShow({ student }: Props) {
+    const { t } = useTranslation(['admin', 'common']);
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('breadcrumbs.dashboard'), href: '/dashboard' },
+        { title: t('breadcrumbs.master_data'), href: '#' },
+        { title: t('breadcrumbs.students'), href: '/admin/master/students' },
+        { title: t('breadcrumbs.detail'), href: '#' },
+    ];
+
     const getStatusBadge = (status: string) => {
         const variants: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
             active: 'default',
@@ -53,12 +56,18 @@ export default function StudentsShow({ student }: Props) {
             transferred: 'outline',
             dropped: 'destructive',
         };
-        return <Badge variant={variants[status] || 'secondary'}>{status}</Badge>;
+        const statusLabels: Record<string, string> = {
+            active: t('students.status.active'),
+            graduated: t('students.status.graduated'),
+            transferred: t('students.status.transferred'),
+            dropped: t('students.status.dropped'),
+        };
+        return <Badge variant={variants[status] || 'secondary'}>{statusLabels[status] || status}</Badge>;
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={`Student: ${student.name}`} />
+            <Head title={`${t('students.detail')}: ${student.name}`} />
 
             <div className="flex flex-col gap-4 p-4">
                 <div className="flex items-center justify-between">
@@ -74,7 +83,7 @@ export default function StudentsShow({ student }: Props) {
                     <Link href={`/admin/master/students/${student.id}/edit`}>
                         <Button>
                             <PencilIcon className="mr-2 h-4 w-4" />
-                            Edit
+                            {t('students.edit')}
                         </Button>
                     </Link>
                 </div>
@@ -82,43 +91,43 @@ export default function StudentsShow({ student }: Props) {
                 <div className="grid gap-6 md:grid-cols-2">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Student Information</CardTitle>
+                            <CardTitle>{t('students.student_info')}</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <p className="text-sm text-muted-foreground">NIS</p>
+                                    <p className="text-sm text-muted-foreground">{t('students.nis')}</p>
                                     <p className="font-mono">{student.nis}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-muted-foreground">NISN</p>
+                                    <p className="text-sm text-muted-foreground">{t('students.nisn')}</p>
                                     <p className="font-mono">{student.nisn}</p>
                                 </div>
                             </div>
                             <div>
-                                <p className="text-sm text-muted-foreground">Gender</p>
+                                <p className="text-sm text-muted-foreground">{t('students.gender')}</p>
                                 <p className="capitalize">{student.gender}</p>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <p className="text-sm text-muted-foreground">Birth Place</p>
+                                    <p className="text-sm text-muted-foreground">{t('students.birth_place')}</p>
                                     <p>{student.birth_place}</p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-muted-foreground">Birth Date</p>
+                                    <p className="text-sm text-muted-foreground">{t('students.birth_date')}</p>
                                     <p>{new Date(student.birth_date).toLocaleDateString()}</p>
                                 </div>
                             </div>
                             <div>
-                                <p className="text-sm text-muted-foreground">Religion</p>
+                                <p className="text-sm text-muted-foreground">{t('students.religion')}</p>
                                 <p>{student.religion || '-'}</p>
                             </div>
                             <div>
-                                <p className="text-sm text-muted-foreground">Phone</p>
+                                <p className="text-sm text-muted-foreground">{t('students.phone')}</p>
                                 <p>{student.phone || '-'}</p>
                             </div>
                             <div>
-                                <p className="text-sm text-muted-foreground">Address</p>
+                                <p className="text-sm text-muted-foreground">{t('students.address')}</p>
                                 <p>{student.address}</p>
                             </div>
                         </CardContent>
@@ -126,19 +135,19 @@ export default function StudentsShow({ student }: Props) {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Academic Information</CardTitle>
+                            <CardTitle>{t('students.academic_info')}</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div>
-                                <p className="text-sm text-muted-foreground">Entry Year</p>
+                                <p className="text-sm text-muted-foreground">{t('students.entry_year')}</p>
                                 <p>{student.entry_year}</p>
                             </div>
                             <div>
-                                <p className="text-sm text-muted-foreground">Previous School</p>
+                                <p className="text-sm text-muted-foreground">{t('students.previous_school')}</p>
                                 <p>{student.previous_school || '-'}</p>
                             </div>
                             <div>
-                                <p className="text-sm text-muted-foreground">Current Classroom</p>
+                                <p className="text-sm text-muted-foreground">{t('students.current_classroom')}</p>
                                 <p>{student.classrooms[0]?.name || '-'}</p>
                             </div>
                         </CardContent>
@@ -146,19 +155,19 @@ export default function StudentsShow({ student }: Props) {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Parent/Guardian Information</CardTitle>
+                            <CardTitle>{t('students.parent_info')}</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div>
-                                <p className="text-sm text-muted-foreground">Parent Name</p>
+                                <p className="text-sm text-muted-foreground">{t('students.parent_name')}</p>
                                 <p>{student.parent_name}</p>
                             </div>
                             <div>
-                                <p className="text-sm text-muted-foreground">Parent Phone</p>
+                                <p className="text-sm text-muted-foreground">{t('students.parent_phone')}</p>
                                 <p>{student.parent_phone}</p>
                             </div>
                             <div>
-                                <p className="text-sm text-muted-foreground">Parent Email</p>
+                                <p className="text-sm text-muted-foreground">{t('students.parent_email')}</p>
                                 <p>{student.parent_email || '-'}</p>
                             </div>
                         </CardContent>

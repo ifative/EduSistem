@@ -1,4 +1,5 @@
 import { Head, Link, useForm } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -38,14 +39,8 @@ interface Props {
     student: Student;
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Master Data', href: '#' },
-    { title: 'Students', href: '/admin/master/students' },
-    { title: 'Edit', href: '#' },
-];
-
 export default function StudentsEdit({ student }: Props) {
+    const { t } = useTranslation(['admin', 'common']);
     const { data, setData, put, processing, errors } = useForm({
         nis: student.nis,
         nisn: student.nisn,
@@ -64,6 +59,13 @@ export default function StudentsEdit({ student }: Props) {
         status: student.status,
     });
 
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('breadcrumbs.dashboard'), href: '/dashboard' },
+        { title: t('breadcrumbs.master_data'), href: '#' },
+        { title: t('breadcrumbs.students'), href: '/admin/master/students' },
+        { title: t('breadcrumbs.edit'), href: '#' },
+    ];
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         put(`/admin/master/students/${student.id}`);
@@ -71,22 +73,22 @@ export default function StudentsEdit({ student }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Edit Student" />
+            <Head title={t('students.edit')} />
 
             <div className="flex flex-col gap-4 p-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">Edit Student</h1>
+                    <h1 className="text-2xl font-bold">{t('students.edit')}</h1>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Student Information</CardTitle>
+                            <CardTitle>{t('students.student_info')}</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="nis">NIS (School ID) *</Label>
+                                    <Label htmlFor="nis">{t('students.nis')} *</Label>
                                     <Input
                                         id="nis"
                                         value={data.nis}
@@ -95,7 +97,7 @@ export default function StudentsEdit({ student }: Props) {
                                     {errors.nis && <p className="text-sm text-destructive">{errors.nis}</p>}
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="nisn">NISN (National ID) *</Label>
+                                    <Label htmlFor="nisn">{t('students.nisn')} *</Label>
                                     <Input
                                         id="nisn"
                                         maxLength={10}
@@ -108,7 +110,7 @@ export default function StudentsEdit({ student }: Props) {
 
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="name">Full Name *</Label>
+                                    <Label htmlFor="name">{t('students.name')} *</Label>
                                     <Input
                                         id="name"
                                         value={data.name}
@@ -117,14 +119,14 @@ export default function StudentsEdit({ student }: Props) {
                                     {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="gender">Gender *</Label>
+                                    <Label htmlFor="gender">{t('students.gender')} *</Label>
                                     <Select value={data.gender} onValueChange={(v) => setData('gender', v)}>
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Select gender" />
+                                            <SelectValue placeholder={t('students.select_gender')} />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="male">Male</SelectItem>
-                                            <SelectItem value="female">Female</SelectItem>
+                                            <SelectItem value="male">{t('students.male')}</SelectItem>
+                                            <SelectItem value="female">{t('students.female')}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                     {errors.gender && <p className="text-sm text-destructive">{errors.gender}</p>}
@@ -133,7 +135,7 @@ export default function StudentsEdit({ student }: Props) {
 
                             <div className="grid gap-4 md:grid-cols-3">
                                 <div className="space-y-2">
-                                    <Label htmlFor="birth_place">Birth Place *</Label>
+                                    <Label htmlFor="birth_place">{t('students.birth_place')} *</Label>
                                     <Input
                                         id="birth_place"
                                         value={data.birth_place}
@@ -142,7 +144,7 @@ export default function StudentsEdit({ student }: Props) {
                                     {errors.birth_place && <p className="text-sm text-destructive">{errors.birth_place}</p>}
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="birth_date">Birth Date *</Label>
+                                    <Label htmlFor="birth_date">{t('students.birth_date')} *</Label>
                                     <Input
                                         id="birth_date"
                                         type="date"
@@ -152,7 +154,7 @@ export default function StudentsEdit({ student }: Props) {
                                     {errors.birth_date && <p className="text-sm text-destructive">{errors.birth_date}</p>}
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="religion">Religion</Label>
+                                    <Label htmlFor="religion">{t('students.religion')}</Label>
                                     <Input
                                         id="religion"
                                         value={data.religion}
@@ -163,7 +165,7 @@ export default function StudentsEdit({ student }: Props) {
 
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="phone">Phone</Label>
+                                    <Label htmlFor="phone">{t('students.phone')}</Label>
                                     <Input
                                         id="phone"
                                         value={data.phone}
@@ -171,7 +173,7 @@ export default function StudentsEdit({ student }: Props) {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="entry_year">Entry Year *</Label>
+                                    <Label htmlFor="entry_year">{t('students.entry_year')} *</Label>
                                     <Input
                                         id="entry_year"
                                         type="number"
@@ -185,7 +187,7 @@ export default function StudentsEdit({ student }: Props) {
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="address">Address *</Label>
+                                <Label htmlFor="address">{t('students.address')} *</Label>
                                 <Textarea
                                     id="address"
                                     rows={3}
@@ -196,7 +198,7 @@ export default function StudentsEdit({ student }: Props) {
                             </div>
 
                             <div className="space-y-2">
-                                <Label htmlFor="previous_school">Previous School</Label>
+                                <Label htmlFor="previous_school">{t('students.previous_school')}</Label>
                                 <Input
                                     id="previous_school"
                                     value={data.previous_school}
@@ -208,12 +210,12 @@ export default function StudentsEdit({ student }: Props) {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Parent/Guardian Information</CardTitle>
+                            <CardTitle>{t('students.parent_info')}</CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid gap-4 md:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="parent_name">Parent Name *</Label>
+                                    <Label htmlFor="parent_name">{t('students.parent_name')} *</Label>
                                     <Input
                                         id="parent_name"
                                         value={data.parent_name}
@@ -222,7 +224,7 @@ export default function StudentsEdit({ student }: Props) {
                                     {errors.parent_name && <p className="text-sm text-destructive">{errors.parent_name}</p>}
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="parent_phone">Parent Phone *</Label>
+                                    <Label htmlFor="parent_phone">{t('students.parent_phone')} *</Label>
                                     <Input
                                         id="parent_phone"
                                         value={data.parent_phone}
@@ -232,7 +234,7 @@ export default function StudentsEdit({ student }: Props) {
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="parent_email">Parent Email</Label>
+                                <Label htmlFor="parent_email">{t('students.parent_email')}</Label>
                                 <Input
                                     id="parent_email"
                                     type="email"
@@ -245,20 +247,20 @@ export default function StudentsEdit({ student }: Props) {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Status</CardTitle>
+                            <CardTitle>{t('students.status.title')}</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-2">
-                                <Label htmlFor="status">Student Status *</Label>
+                                <Label htmlFor="status">{t('students.status.student_status')} *</Label>
                                 <Select value={data.status} onValueChange={(v) => setData('status', v)}>
                                     <SelectTrigger className="w-48">
                                         <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="active">Active</SelectItem>
-                                        <SelectItem value="graduated">Graduated</SelectItem>
-                                        <SelectItem value="transferred">Transferred</SelectItem>
-                                        <SelectItem value="dropped">Dropped</SelectItem>
+                                        <SelectItem value="active">{t('students.status.active')}</SelectItem>
+                                        <SelectItem value="graduated">{t('students.status.graduated')}</SelectItem>
+                                        <SelectItem value="transferred">{t('students.status.transferred')}</SelectItem>
+                                        <SelectItem value="dropped">{t('students.status.dropped')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -267,11 +269,11 @@ export default function StudentsEdit({ student }: Props) {
 
                     <div className="flex gap-4">
                         <Button type="submit" disabled={processing}>
-                            {processing ? 'Saving...' : 'Save Changes'}
+                            {processing ? t('students.updating') : t('students.edit')}
                         </Button>
                         <Link href="/admin/master/students">
                             <Button type="button" variant="outline">
-                                Cancel
+                                {t('common:actions.cancel')}
                             </Button>
                         </Link>
                     </div>

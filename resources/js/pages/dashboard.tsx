@@ -4,6 +4,7 @@ import { dashboard } from '@/routes';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { Activity, Plus, Settings, Shield, ShieldCheck, TrendingUp, Users } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Stats {
     total_users: number;
@@ -26,62 +27,64 @@ interface Props {
     recentActivities: RecentActivity[];
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard().url,
-    },
-];
-
 export default function Dashboard({ stats, recentActivities }: Props) {
+    const { t } = useTranslation('admin');
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: t('breadcrumbs.dashboard'),
+            href: dashboard().url,
+        },
+    ];
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Dashboard" />
+            <Head title={t('dashboard.title')} />
             <div className="flex h-full flex-1 flex-col gap-6 p-4">
                 {/* Stats Grid */}
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+                            <CardTitle className="text-sm font-medium">{t('dashboard.total_users')}</CardTitle>
                             <Users className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">{stats.total_users}</div>
                             <p className="text-xs text-muted-foreground">
-                                <span className="text-green-600">+{stats.recent_users}</span> this week
+                                <span className="text-green-600">+{stats.recent_users}</span> {t('dashboard.this_week', { count: '' }).trim()}
                             </p>
                         </CardContent>
                     </Card>
 
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Total Roles</CardTitle>
+                            <CardTitle className="text-sm font-medium">{t('dashboard.total_roles')}</CardTitle>
                             <Shield className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">{stats.total_roles}</div>
                             <p className="text-xs text-muted-foreground">
-                                Active role configurations
+                                {t('dashboard.active_roles')}
                             </p>
                         </CardContent>
                     </Card>
 
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Total Permissions</CardTitle>
+                            <CardTitle className="text-sm font-medium">{t('dashboard.total_permissions')}</CardTitle>
                             <ShieldCheck className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
                             <div className="text-2xl font-bold">{stats.total_permissions}</div>
                             <p className="text-xs text-muted-foreground">
-                                Access control rules
+                                {t('dashboard.access_rules')}
                             </p>
                         </CardContent>
                     </Card>
 
                     <Card>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Growth</CardTitle>
+                            <CardTitle className="text-sm font-medium">{t('dashboard.growth')}</CardTitle>
                             <TrendingUp className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
@@ -91,7 +94,7 @@ export default function Dashboard({ stats, recentActivities }: Props) {
                                     : '0%'}
                             </div>
                             <p className="text-xs text-muted-foreground">
-                                New users this week
+                                {t('dashboard.new_users_week')}
                             </p>
                         </CardContent>
                     </Card>
@@ -102,14 +105,14 @@ export default function Dashboard({ stats, recentActivities }: Props) {
                     {/* Recent Activity */}
                     <Card className="lg:col-span-4">
                         <CardHeader>
-                            <CardTitle>Recent Activity</CardTitle>
+                            <CardTitle>{t('dashboard.recent_activity')}</CardTitle>
                             <CardDescription>
-                                Latest actions performed in the system
+                                {t('dashboard.latest_actions')}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
                             {recentActivities.length === 0 ? (
-                                <p className="text-sm text-muted-foreground">No recent activity</p>
+                                <p className="text-sm text-muted-foreground">{t('dashboard.no_recent')}</p>
                             ) : (
                                 <div className="space-y-4">
                                     {recentActivities.map((activity) => (
@@ -127,7 +130,7 @@ export default function Dashboard({ stats, recentActivities }: Props) {
                                                     )}
                                                 </p>
                                                 <p className="text-xs text-muted-foreground">
-                                                    by {activity.causer_name} · {activity.created_at}
+                                                    {t('dashboard.by_user', { name: activity.causer_name })} · {activity.created_at}
                                                 </p>
                                             </div>
                                         </div>
@@ -140,9 +143,9 @@ export default function Dashboard({ stats, recentActivities }: Props) {
                     {/* Quick Actions */}
                     <Card className="lg:col-span-3">
                         <CardHeader>
-                            <CardTitle>Quick Actions</CardTitle>
+                            <CardTitle>{t('dashboard.quick_actions')}</CardTitle>
                             <CardDescription>
-                                Common tasks and shortcuts
+                                {t('dashboard.common_tasks')}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -155,8 +158,8 @@ export default function Dashboard({ stats, recentActivities }: Props) {
                                         <Plus className="h-4 w-4 text-primary" />
                                     </div>
                                     <div>
-                                        <p className="text-sm font-medium">Add New User</p>
-                                        <p className="text-xs text-muted-foreground">Create a user account</p>
+                                        <p className="text-sm font-medium">{t('dashboard.add_new_user')}</p>
+                                        <p className="text-xs text-muted-foreground">{t('dashboard.create_user_account')}</p>
                                     </div>
                                 </Link>
 
@@ -168,8 +171,8 @@ export default function Dashboard({ stats, recentActivities }: Props) {
                                         <Shield className="h-4 w-4 text-primary" />
                                     </div>
                                     <div>
-                                        <p className="text-sm font-medium">Create Role</p>
-                                        <p className="text-xs text-muted-foreground">Define new access role</p>
+                                        <p className="text-sm font-medium">{t('dashboard.create_role')}</p>
+                                        <p className="text-xs text-muted-foreground">{t('dashboard.define_role')}</p>
                                     </div>
                                 </Link>
 
@@ -181,8 +184,8 @@ export default function Dashboard({ stats, recentActivities }: Props) {
                                         <Settings className="h-4 w-4 text-primary" />
                                     </div>
                                     <div>
-                                        <p className="text-sm font-medium">App Settings</p>
-                                        <p className="text-xs text-muted-foreground">Configure application</p>
+                                        <p className="text-sm font-medium">{t('dashboard.app_settings')}</p>
+                                        <p className="text-xs text-muted-foreground">{t('dashboard.configure_app')}</p>
                                     </div>
                                 </Link>
 
@@ -194,8 +197,8 @@ export default function Dashboard({ stats, recentActivities }: Props) {
                                         <Activity className="h-4 w-4 text-primary" />
                                     </div>
                                     <div>
-                                        <p className="text-sm font-medium">Activity Logs</p>
-                                        <p className="text-xs text-muted-foreground">View all activities</p>
+                                        <p className="text-sm font-medium">{t('dashboard.activity_logs')}</p>
+                                        <p className="text-xs text-muted-foreground">{t('dashboard.view_activities')}</p>
                                     </div>
                                 </Link>
                             </div>

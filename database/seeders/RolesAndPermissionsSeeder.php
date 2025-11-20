@@ -82,6 +82,40 @@ class RolesAndPermissionsSeeder extends Seeder
             'master.classrooms.create',
             'master.classrooms.edit',
             'master.classrooms.delete',
+
+            // Master Data - Extracurriculars
+            'master.extracurriculars.view',
+            'master.extracurriculars.create',
+            'master.extracurriculars.edit',
+            'master.extracurriculars.delete',
+
+            // PPDB - Periods
+            'ppdb.periods.view',
+            'ppdb.periods.create',
+            'ppdb.periods.edit',
+            'ppdb.periods.delete',
+
+            // PPDB - Paths
+            'ppdb.paths.view',
+            'ppdb.paths.create',
+            'ppdb.paths.edit',
+            'ppdb.paths.delete',
+
+            // PPDB - Registrations
+            'ppdb.registrations.view',
+            'ppdb.registrations.edit',
+            'ppdb.registrations.verify',
+            'ppdb.registrations.export',
+
+            // PPDB - Documents
+            'ppdb.documents.view',
+            'ppdb.documents.verify',
+
+            // PPDB - Selections
+            'ppdb.selections.view',
+            'ppdb.selections.edit',
+            'ppdb.selections.run',
+            'ppdb.selections.announce',
         ];
 
         foreach ($permissions as $permission) {

@@ -3,7 +3,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Checkbox } from '@/components/ui/checkbox';
 import { FormField } from '@/components/form-field';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
     Table,
     TableBody,
@@ -16,31 +15,34 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, type Permission } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Loader2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 
 interface Props {
     permissions: Permission[];
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Roles', href: '/admin/roles' },
-    { title: 'Create', href: '/admin/roles/create' },
-];
-
 // Standard actions in display order
 const ACTIONS = ['view', 'create', 'edit', 'delete'] as const;
 
-// Module display names
-const MODULE_LABELS: Record<string, string> = {
-    users: 'Users',
-    roles: 'Roles',
-    permissions: 'Permissions',
-    'activity-logs': 'Activity Logs',
-    settings: 'Settings',
+// Module keys for translation
+const MODULE_KEYS: Record<string, string> = {
+    users: 'users',
+    roles: 'roles',
+    permissions: 'permissions',
+    'activity-logs': 'logs',
+    settings: 'settings',
 };
 
 export default function RolesCreate({ permissions }: Props) {
+    const { t } = useTranslation();
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('admin:breadcrumbs.dashboard'), href: '/dashboard' },
+        { title: t('admin:breadcrumbs.roles'), href: '/admin/roles' },
+        { title: t('admin:breadcrumbs.create'), href: '/admin/roles/create' },
+    ];
+
     const { data, setData, post, processing, errors } = useForm({
         name: '',
         permissions: [] as string[],
@@ -49,9 +51,15 @@ export default function RolesCreate({ permissions }: Props) {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         post('/admin/roles', {
-            onSuccess: () => toast.success('Role created successfully'),
-            onError: () => toast.error('Failed to create role'),
+            onSuccess: () => toast.success(t('admin:roles.created_success')),
+            onError: () => toast.error(t('admin:roles.created_error')),
         });
+    };
+
+    // Get module label from translation
+    const getModuleLabel = (module: string) => {
+        const key = MODULE_KEYS[module];
+        return key ? t(`admin:roles.modules.${key}`) : module;
     };
 
     const togglePermission = (permName: string) => {
@@ -101,26 +109,26 @@ export default function RolesCreate({ permissions }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Create Role" />
+            <Head title={t('admin:roles.create')} />
             <div className="flex h-full flex-1 flex-col gap-6 p-4">
                 <div>
-                    <h1 className="text-2xl font-bold">Create Role</h1>
-                    <p className="text-muted-foreground">Create a new role and assign permissions</p>
+                    <h1 className="text-2xl font-bold">{t('admin:roles.create')}</h1>
+                    <p className="text-muted-foreground">{t('admin:roles.create_description', 'Create a new role and assign permissions')}</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Role Information</CardTitle>
-                            <CardDescription>Enter the basic information for this role</CardDescription>
+                            <CardTitle>{t('admin:roles.role_information', 'Role Information')}</CardTitle>
+                            <CardDescription>{t('admin:roles.role_information_description', 'Enter the basic information for this role')}</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            <FormField label="Role Name" htmlFor="name" error={errors.name} required>
+                            <FormField label={t('admin:roles.name')} htmlFor="name" error={errors.name} required>
                                 <Input
                                     id="name"
                                     value={data.name}
                                     onChange={(e) => setData('name', e.target.value)}
-                                    placeholder="e.g., Editor, Moderator"
+                                    placeholder={t('admin:roles.name_placeholder', 'e.g., Editor, Moderator')}
                                     className="max-w-md"
                                     aria-invalid={!!errors.name}
                                 />
@@ -130,28 +138,28 @@ export default function RolesCreate({ permissions }: Props) {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>Permissions</CardTitle>
-                            <CardDescription>Select the permissions for this role</CardDescription>
+                            <CardTitle>{t('admin:roles.permissions')}</CardTitle>
+                            <CardDescription>{t('admin:roles.permissions_description', 'Select the permissions for this role')}</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div className="rounded-md border">
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
-                                            <TableHead className="w-[200px]">Module</TableHead>
+                                            <TableHead className="w-[200px]">{t('admin:roles.module', 'Module')}</TableHead>
                                             {ACTIONS.map((action) => (
                                                 <TableHead key={action} className="text-center capitalize">
                                                     {action}
                                                 </TableHead>
                                             ))}
-                                            <TableHead className="text-center">All</TableHead>
+                                            <TableHead className="text-center">{t('admin:roles.all', 'All')}</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
                                         {modules.map((module) => (
                                             <TableRow key={module}>
                                                 <TableCell className="font-medium">
-                                                    {MODULE_LABELS[module] || module}
+                                                    {getModuleLabel(module)}
                                                 </TableCell>
                                                 {ACTIONS.map((action) => {
                                                     const perm = permissionMap[module]?.[action];
@@ -162,7 +170,7 @@ export default function RolesCreate({ permissions }: Props) {
                                                                     id={`perm-${perm.id}`}
                                                                     checked={data.permissions.includes(perm.name)}
                                                                     onCheckedChange={() => togglePermission(perm.name)}
-                                                                    aria-label={`${MODULE_LABELS[module] || module} ${action}`}
+                                                                    aria-label={`${getModuleLabel(module)} ${action}`}
                                                                 />
                                                             ) : (
                                                                 <span className="text-muted-foreground">-</span>
@@ -181,7 +189,7 @@ export default function RolesCreate({ permissions }: Props) {
                                                             }
                                                         }}
                                                         onCheckedChange={(checked) => toggleModule(module, checked as boolean)}
-                                                        aria-label={`Select all ${MODULE_LABELS[module] || module} permissions`}
+                                                        aria-label={`${t('admin:roles.select_all', 'Select all')} ${getModuleLabel(module)} ${t('admin:roles.permissions').toLowerCase()}`}
                                                     />
                                                 </TableCell>
                                             </TableRow>
@@ -198,10 +206,10 @@ export default function RolesCreate({ permissions }: Props) {
                     <div className="flex gap-2">
                         <Button type="submit" disabled={processing}>
                             {processing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Create Role
+                            {t('admin:roles.create')}
                         </Button>
                         <Link href="/admin/roles">
-                            <Button variant="outline" type="button">Cancel</Button>
+                            <Button variant="outline" type="button">{t('common:dialog.cancel')}</Button>
                         </Link>
                     </div>
                 </form>

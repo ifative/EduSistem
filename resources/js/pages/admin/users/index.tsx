@@ -10,6 +10,7 @@ import { type BreadcrumbItem, type PaginatedData, type Role, type User } from '@
 import { Head, Link, router } from '@inertiajs/react';
 import { Download, Loader2, Plus, Search, Users } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
 import { createColumns, type UserWithRoles } from './columns';
@@ -19,12 +20,8 @@ interface Props {
     filters: { search?: string };
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Users', href: '/admin/users' },
-];
-
 export default function UsersIndex({ users, filters }: Props) {
+    const { t } = useTranslation();
     const [search, setSearch] = useState(filters.search || '');
     const [isSearching, setIsSearching] = useState(false);
     const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; user: User | null; isLoading: boolean }>({
@@ -32,6 +29,11 @@ export default function UsersIndex({ users, filters }: Props) {
         user: null,
         isLoading: false,
     });
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('admin:breadcrumbs.dashboard'), href: '/dashboard' },
+        { title: t('admin:breadcrumbs.users'), href: '/admin/users' },
+    ];
 
     const debouncedSearch = useDebouncedCallback((value: string) => {
         router.get('/admin/users', { search: value }, {
@@ -57,38 +59,38 @@ export default function UsersIndex({ users, filters }: Props) {
 
         router.delete(`/admin/users/${deleteDialog.user.id}`, {
             onSuccess: () => {
-                toast.success('User deleted successfully');
+                toast.success(t('admin:users.deleted_success'));
                 setDeleteDialog({ open: false, user: null, isLoading: false });
             },
             onError: () => {
-                toast.error('Failed to delete user');
+                toast.error(t('admin:users.deleted_error'));
                 setDeleteDialog((prev) => ({ ...prev, isLoading: false }));
             },
         });
     };
 
     const columns = useMemo(
-        () => createColumns({ onDelete: handleDeleteClick }),
-        [],
+        () => createColumns({ onDelete: handleDeleteClick, t }),
+        [t],
     );
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Users Management" />
+            <Head title={t('admin:users.title')} />
             <div className="flex h-full flex-1 flex-col gap-4 p-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">Users Management</h1>
+                    <h1 className="text-2xl font-bold">{t('admin:users.title')}</h1>
                     <div className="flex gap-2">
                         <a href="/admin/export/users">
                             <Button variant="outline">
                                 <Download className="mr-2 h-4 w-4" />
-                                Export
+                                {t('common:export.export')}
                             </Button>
                         </a>
                         <Link href="/admin/users/create">
                             <Button>
                                 <Plus className="mr-2 h-4 w-4" />
-                                Add User
+                                {t('admin:users.add')}
                             </Button>
                         </Link>
                     </div>
@@ -100,7 +102,7 @@ export default function UsersIndex({ users, filters }: Props) {
                             <div className="relative w-full sm:w-72">
                                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                 <Input
-                                    placeholder="Search users..."
+                                    placeholder={t('admin:users.search_placeholder')}
                                     value={search}
                                     onChange={(e) => handleSearchChange(e.target.value)}
                                     className="pl-10"
@@ -114,14 +116,14 @@ export default function UsersIndex({ users, filters }: Props) {
                         {users.data.length === 0 ? (
                             <EmptyState
                                 icon={<Users className="h-12 w-12" />}
-                                title="No users found"
-                                description={search ? 'Try adjusting your search terms' : 'Get started by creating your first user'}
+                                title={t('admin:users.empty_title')}
+                                description={search ? t('admin:users.empty_search') : t('admin:users.empty_description')}
                                 action={
                                     !search && (
                                         <Link href="/admin/users/create">
                                             <Button>
                                                 <Plus className="mr-2 h-4 w-4" />
-                                                Add User
+                                                {t('admin:users.add')}
                                             </Button>
                                         </Link>
                                     )
@@ -140,9 +142,9 @@ export default function UsersIndex({ users, filters }: Props) {
             <ConfirmDialog
                 open={deleteDialog.open}
                 onOpenChange={(open) => setDeleteDialog({ open, user: null, isLoading: false })}
-                title="Delete user?"
-                description={`Are you sure you want to delete ${deleteDialog.user?.name}? This action cannot be undone.`}
-                confirmText="Delete"
+                title={t('admin:users.delete_title')}
+                description={t('admin:users.delete_description', { name: deleteDialog.user?.name })}
+                confirmText={t('common:dialog.delete')}
                 variant="destructive"
                 isLoading={deleteDialog.isLoading}
                 onConfirm={handleDeleteConfirm}

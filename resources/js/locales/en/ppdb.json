@@ -1,0 +1,172 @@
+{
+    "title": "Student Admission (PPDB)",
+    "registration": "Registration",
+    "registration_closed": "Registration Closed",
+    "registration_closed_description": "The student admission registration period has ended or not yet started. Please check back later.",
+    "check_status": "Check Registration Status",
+    "check_status_description": "Enter your registration number and birth date to check your application status",
+    "registration_number": "Registration Number",
+    "birth_date": "Birth Date",
+    "check": "Check Status",
+    "register_now": "Register Now",
+    "back_to_registration": "Back to Registration",
+    "steps": {
+        "path": "Admission Path",
+        "personal": "Personal Info",
+        "address": "Address",
+        "parents": "Parent Info",
+        "school": "Previous School",
+        "review": "Review"
+    },
+    "step_1": {
+        "title": "Select Admission Path",
+        "description": "Choose the admission path you want to apply for",
+        "select_path": "Select admission path",
+        "select_level": "Select education level",
+        "select_major": "Select major (optional)"
+    },
+    "step_2": {
+        "title": "Personal Information",
+        "description": "Enter your personal details",
+        "full_name": "Full Name",
+        "nisn": "NISN (National Student ID)",
+        "nik": "NIK (National ID Number)",
+        "gender": "Gender",
+        "male": "Male",
+        "female": "Female",
+        "birth_place": "Place of Birth",
+        "birth_date": "Date of Birth",
+        "religion": "Religion",
+        "select_religion": "Select religion",
+        "religions": {
+            "islam": "Islam",
+            "kristen": "Christian",
+            "katolik": "Catholic",
+            "hindu": "Hindu",
+            "buddha": "Buddhist",
+            "konghucu": "Confucian",
+            "other": "Other"
+        }
+    },
+    "step_3": {
+        "title": "Address Information",
+        "description": "Enter your current address",
+        "address": "Street Address",
+        "village": "Village/Kelurahan",
+        "district": "District/Kecamatan",
+        "city": "City/Kabupaten",
+        "province": "Province",
+        "postal_code": "Postal Code",
+        "phone": "Phone Number",
+        "email": "Email Address"
+    },
+    "step_4": {
+        "title": "Parent/Guardian Information",
+        "description": "Enter your parent or guardian details",
+        "father": "Father",
+        "mother": "Mother",
+        "guardian": "Guardian",
+        "name": "Name",
+        "occupation": "Occupation",
+        "phone": "Phone Number",
+        "income": "Monthly Income",
+        "guardian_info": "Fill guardian information if parents are unavailable"
+    },
+    "step_5": {
+        "title": "Previous School Information",
+        "description": "Enter details about your previous school",
+        "school_name": "School Name",
+        "school_address": "School Address",
+        "npsn": "NPSN (School ID)",
+        "graduation_year": "Graduation Year"
+    },
+    "step_6": {
+        "title": "Review & Submit",
+        "description": "Please review your information before submitting",
+        "confirm": "I confirm that all information provided is accurate and true",
+        "edit": "Edit"
+    },
+    "actions": {
+        "next": "Next",
+        "previous": "Previous",
+        "submit": "Submit Registration",
+        "submitting": "Submitting..."
+    },
+    "success": {
+        "title": "Registration Successful!",
+        "description": "Your registration has been submitted successfully",
+        "registration_number": "Registration Number",
+        "save_instruction": "Please save this registration number. You will need it to check your application status.",
+        "next_steps": "Next Steps",
+        "next_steps_list": [
+            "Save your registration number",
+            "Check your registration status regularly",
+            "Upload required documents",
+            "Wait for the selection results"
+        ],
+        "check_status": "Check Status"
+    },
+    "status": {
+        "title": "Registration Status",
+        "registration_info": "Registration Information",
+        "applicant_name": "Applicant Name",
+        "path": "Admission Path",
+        "level": "Education Level",
+        "major": "Major",
+        "submitted_at": "Submitted At",
+        "current_status": "Current Status",
+        "statuses": {
+            "draft": "Draft",
+            "submitted": "Submitted",
+            "verified": "Verified",
+            "passed": "Passed",
+            "failed": "Failed",
+            "enrolled": "Enrolled"
+        },
+        "documents": "Documents",
+        "documents_description": "Upload required documents for verification",
+        "upload_document": "Upload Document",
+        "document_type": "Document Type",
+        "select_document_type": "Select document type",
+        "choose_file": "Choose file",
+        "no_documents": "No documents uploaded yet",
+        "scores": "Academic Scores",
+        "scores_description": "Enter your academic scores from previous school",
+        "add_score": "Add Score",
+        "subject": "Subject",
+        "score": "Score",
+        "semester": "Semester",
+        "no_scores": "No scores entered yet",
+        "achievements": "Achievements",
+        "achievements_description": "Add your achievements and certifications",
+        "add_achievement": "Add Achievement",
+        "achievement_name": "Achievement Name",
+        "achievement_level": "Level",
+        "achievement_year": "Year",
+        "certificate": "Certificate",
+        "no_achievements": "No achievements added yet",
+        "levels": {
+            "school": "School",
+            "district": "District",
+            "city": "City",
+            "province": "Province",
+            "national": "National",
+            "international": "International"
+        },
+        "submit_registration": "Submit Registration",
+        "submit_warning": "Make sure all required documents are uploaded before submitting",
+        "selection_results": "Selection Results",
+        "final_score": "Final Score",
+        "rank": "Rank",
+        "notes": "Notes",
+        "not_found": "Registration Not Found",
+        "not_found_description": "We could not find a registration with the provided details. Please check your registration number and birth date."
+    },
+    "validation": {
+        "required": "This field is required",
+        "invalid_email": "Please enter a valid email address",
+        "invalid_phone": "Please enter a valid phone number",
+        "nisn_length": "NISN must be 10 digits",
+        "nik_length": "NIK must be 16 digits"
+    }
+}

@@ -1,0 +1,172 @@
+{
+    "title": "Penerimaan Peserta Didik Baru (PPDB)",
+    "registration": "Pendaftaran",
+    "registration_closed": "Pendaftaran Ditutup",
+    "registration_closed_description": "Periode pendaftaran PPDB telah berakhir atau belum dimulai. Silakan periksa kembali nanti.",
+    "check_status": "Cek Status Pendaftaran",
+    "check_status_description": "Masukkan nomor pendaftaran dan tanggal lahir untuk memeriksa status pendaftaran Anda",
+    "registration_number": "Nomor Pendaftaran",
+    "birth_date": "Tanggal Lahir",
+    "check": "Cek Status",
+    "register_now": "Daftar Sekarang",
+    "back_to_registration": "Kembali ke Pendaftaran",
+    "steps": {
+        "path": "Jalur Pendaftaran",
+        "personal": "Data Pribadi",
+        "address": "Alamat",
+        "parents": "Data Orang Tua",
+        "school": "Asal Sekolah",
+        "review": "Tinjauan"
+    },
+    "step_1": {
+        "title": "Pilih Jalur Pendaftaran",
+        "description": "Pilih jalur pendaftaran yang ingin Anda ikuti",
+        "select_path": "Pilih jalur pendaftaran",
+        "select_level": "Pilih jenjang pendidikan",
+        "select_major": "Pilih jurusan (opsional)"
+    },
+    "step_2": {
+        "title": "Informasi Pribadi",
+        "description": "Masukkan data pribadi Anda",
+        "full_name": "Nama Lengkap",
+        "nisn": "NISN (Nomor Induk Siswa Nasional)",
+        "nik": "NIK (Nomor Induk Kependudukan)",
+        "gender": "Jenis Kelamin",
+        "male": "Laki-laki",
+        "female": "Perempuan",
+        "birth_place": "Tempat Lahir",
+        "birth_date": "Tanggal Lahir",
+        "religion": "Agama",
+        "select_religion": "Pilih agama",
+        "religions": {
+            "islam": "Islam",
+            "kristen": "Kristen",
+            "katolik": "Katolik",
+            "hindu": "Hindu",
+            "buddha": "Buddha",
+            "konghucu": "Konghucu",
+            "other": "Lainnya"
+        }
+    },
+    "step_3": {
+        "title": "Informasi Alamat",
+        "description": "Masukkan alamat tempat tinggal Anda",
+        "address": "Alamat Lengkap",
+        "village": "Desa/Kelurahan",
+        "district": "Kecamatan",
+        "city": "Kota/Kabupaten",
+        "province": "Provinsi",
+        "postal_code": "Kode Pos",
+        "phone": "Nomor Telepon",
+        "email": "Alamat Email"
+    },
+    "step_4": {
+        "title": "Informasi Orang Tua/Wali",
+        "description": "Masukkan data orang tua atau wali Anda",
+        "father": "Ayah",
+        "mother": "Ibu",
+        "guardian": "Wali",
+        "name": "Nama",
+        "occupation": "Pekerjaan",
+        "phone": "Nomor Telepon",
+        "income": "Penghasilan Bulanan",
+        "guardian_info": "Isi data wali jika orang tua tidak tersedia"
+    },
+    "step_5": {
+        "title": "Informasi Asal Sekolah",
+        "description": "Masukkan informasi sekolah asal Anda",
+        "school_name": "Nama Sekolah",
+        "school_address": "Alamat Sekolah",
+        "npsn": "NPSN (Nomor Pokok Sekolah Nasional)",
+        "graduation_year": "Tahun Lulus"
+    },
+    "step_6": {
+        "title": "Tinjau & Kirim",
+        "description": "Silakan periksa kembali informasi Anda sebelum mengirim",
+        "confirm": "Saya menyatakan bahwa semua informasi yang diberikan adalah benar dan akurat",
+        "edit": "Edit"
+    },
+    "actions": {
+        "next": "Selanjutnya",
+        "previous": "Sebelumnya",
+        "submit": "Kirim Pendaftaran",
+        "submitting": "Mengirim..."
+    },
+    "success": {
+        "title": "Pendaftaran Berhasil!",
+        "description": "Pendaftaran Anda telah berhasil dikirim",
+        "registration_number": "Nomor Pendaftaran",
+        "save_instruction": "Harap simpan nomor pendaftaran ini. Anda akan membutuhkannya untuk memeriksa status pendaftaran.",
+        "next_steps": "Langkah Selanjutnya",
+        "next_steps_list": [
+            "Simpan nomor pendaftaran Anda",
+            "Periksa status pendaftaran secara berkala",
+            "Unggah dokumen yang diperlukan",
+            "Tunggu hasil seleksi"
+        ],
+        "check_status": "Cek Status"
+    },
+    "status": {
+        "title": "Status Pendaftaran",
+        "registration_info": "Informasi Pendaftaran",
+        "applicant_name": "Nama Pendaftar",
+        "path": "Jalur Pendaftaran",
+        "level": "Jenjang Pendidikan",
+        "major": "Jurusan",
+        "submitted_at": "Waktu Pengiriman",
+        "current_status": "Status Saat Ini",
+        "statuses": {
+            "draft": "Draf",
+            "submitted": "Terkirim",
+            "verified": "Terverifikasi",
+            "passed": "Lulus",
+            "failed": "Tidak Lulus",
+            "enrolled": "Terdaftar"
+        },
+        "documents": "Dokumen",
+        "documents_description": "Unggah dokumen yang diperlukan untuk verifikasi",
+        "upload_document": "Unggah Dokumen",
+        "document_type": "Jenis Dokumen",
+        "select_document_type": "Pilih jenis dokumen",
+        "choose_file": "Pilih file",
+        "no_documents": "Belum ada dokumen yang diunggah",
+        "scores": "Nilai Akademik",
+        "scores_description": "Masukkan nilai akademik dari sekolah sebelumnya",
+        "add_score": "Tambah Nilai",
+        "subject": "Mata Pelajaran",
+        "score": "Nilai",
+        "semester": "Semester",
+        "no_scores": "Belum ada nilai yang dimasukkan",
+        "achievements": "Prestasi",
+        "achievements_description": "Tambahkan prestasi dan sertifikat Anda",
+        "add_achievement": "Tambah Prestasi",
+        "achievement_name": "Nama Prestasi",
+        "achievement_level": "Tingkat",
+        "achievement_year": "Tahun",
+        "certificate": "Sertifikat",
+        "no_achievements": "Belum ada prestasi yang ditambahkan",
+        "levels": {
+            "school": "Sekolah",
+            "district": "Kecamatan",
+            "city": "Kota/Kabupaten",
+            "province": "Provinsi",
+            "national": "Nasional",
+            "international": "Internasional"
+        },
+        "submit_registration": "Kirim Pendaftaran",
+        "submit_warning": "Pastikan semua dokumen yang diperlukan telah diunggah sebelum mengirim",
+        "selection_results": "Hasil Seleksi",
+        "final_score": "Nilai Akhir",
+        "rank": "Peringkat",
+        "notes": "Catatan",
+        "not_found": "Pendaftaran Tidak Ditemukan",
+        "not_found_description": "Kami tidak dapat menemukan pendaftaran dengan data yang diberikan. Silakan periksa kembali nomor pendaftaran dan tanggal lahir Anda."
+    },
+    "validation": {
+        "required": "Kolom ini wajib diisi",
+        "invalid_email": "Masukkan alamat email yang valid",
+        "invalid_phone": "Masukkan nomor telepon yang valid",
+        "nisn_length": "NISN harus 10 digit",
+        "nik_length": "NIK harus 16 digit"
+    }
+}

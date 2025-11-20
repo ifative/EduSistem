@@ -16,6 +16,7 @@ import { type BreadcrumbItem, type PaginatedData } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { Download, Eye, File, FileImage, FileText, FileVideo, Image, Loader2, Search, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -39,11 +40,6 @@ interface Props {
     filters: { search?: string; type?: string };
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Media', href: '/admin/media' },
-];
-
 function getFileIcon(mimeType: string) {
     if (mimeType.startsWith('image/')) return <FileImage className="h-8 w-8 text-blue-500" />;
     if (mimeType.startsWith('video/')) return <FileVideo className="h-8 w-8 text-purple-500" />;
@@ -52,6 +48,7 @@ function getFileIcon(mimeType: string) {
 }
 
 export default function MediaIndex({ media, filters }: Props) {
+    const { t } = useTranslation();
     const [search, setSearch] = useState(filters.search || '');
     const [isSearching, setIsSearching] = useState(false);
     const [deleteDialog, setDeleteDialog] = useState<{ open: boolean; media: MediaItem | null; isLoading: boolean }>({
@@ -60,6 +57,11 @@ export default function MediaIndex({ media, filters }: Props) {
         isLoading: false,
     });
     const [previewMedia, setPreviewMedia] = useState<MediaItem | null>(null);
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('admin:breadcrumbs.dashboard'), href: '/dashboard' },
+        { title: t('admin:breadcrumbs.media'), href: '/admin/media' },
+    ];
 
     const debouncedSearch = useDebouncedCallback((value: string) => {
         router.get('/admin/media', { search: value, type: filters.type }, {
@@ -91,11 +93,11 @@ export default function MediaIndex({ media, filters }: Props) {
 
         router.delete(`/admin/media/${deleteDialog.media.id}`, {
             onSuccess: () => {
-                toast.success('Media deleted successfully');
+                toast.success(t('admin:media.deleted_success'));
                 setDeleteDialog({ open: false, media: null, isLoading: false });
             },
             onError: () => {
-                toast.error('Failed to delete media');
+                toast.error(t('admin:media.deleted_error'));
                 setDeleteDialog((prev) => ({ ...prev, isLoading: false }));
             },
         });
@@ -103,10 +105,10 @@ export default function MediaIndex({ media, filters }: Props) {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Media Manager" />
+            <Head title={t('admin:media.title')} />
             <div className="flex h-full flex-1 flex-col gap-4 p-4">
                 <div className="flex items-center justify-between">
-                    <h1 className="text-2xl font-bold">Media Manager</h1>
+                    <h1 className="text-2xl font-bold">{t('admin:media.title')}</h1>
                 </div>
 
                 <Card className="flex-1">
@@ -115,7 +117,7 @@ export default function MediaIndex({ media, filters }: Props) {
                             <div className="relative w-full sm:w-72">
                                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                 <Input
-                                    placeholder="Search files..."
+                                    placeholder={t('admin:media.search_placeholder')}
                                     value={search}
                                     onChange={(e) => handleSearchChange(e.target.value)}
                                     className="pl-10"
@@ -126,13 +128,13 @@ export default function MediaIndex({ media, filters }: Props) {
                             </div>
                             <Select value={filters.type || 'all'} onValueChange={handleTypeChange}>
                                 <SelectTrigger className="w-40">
-                                    <SelectValue placeholder="Filter by type" />
+                                    <SelectValue placeholder={t('admin:media.all_types')} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">All Types</SelectItem>
-                                    <SelectItem value="image">Images</SelectItem>
-                                    <SelectItem value="document">Documents</SelectItem>
-                                    <SelectItem value="video">Videos</SelectItem>
+                                    <SelectItem value="all">{t('admin:media.all_types')}</SelectItem>
+                                    <SelectItem value="image">{t('admin:media.images')}</SelectItem>
+                                    <SelectItem value="document">{t('admin:media.documents')}</SelectItem>
+                                    <SelectItem value="video">{t('admin:media.videos')}</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -140,8 +142,8 @@ export default function MediaIndex({ media, filters }: Props) {
                         {media.data.length === 0 ? (
                             <EmptyState
                                 icon={<Image className="h-12 w-12" />}
-                                title="No media files found"
-                                description={search || filters.type ? 'Try adjusting your filters' : 'Media files will appear here when uploaded'}
+                                title={t('admin:media.empty_title')}
+                                description={search || filters.type ? t('admin:media.empty_search') : t('admin:media.empty_description')}
                             />
                         ) : (
                             <>
@@ -211,9 +213,9 @@ export default function MediaIndex({ media, filters }: Props) {
             <ConfirmDialog
                 open={deleteDialog.open}
                 onOpenChange={(open) => setDeleteDialog({ open, media: null, isLoading: false })}
-                title="Delete media?"
-                description={`Are you sure you want to delete ${deleteDialog.media?.file_name}? This action cannot be undone.`}
-                confirmText="Delete"
+                title={t('admin:media.delete_title')}
+                description={t('admin:media.delete_description', { name: deleteDialog.media?.file_name })}
+                confirmText={t('common:dialog.delete')}
                 variant="destructive"
                 isLoading={deleteDialog.isLoading}
                 onConfirm={handleDeleteConfirm}

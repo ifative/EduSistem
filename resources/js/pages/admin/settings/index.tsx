@@ -14,6 +14,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
 import { Loader2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 
 interface Props {
@@ -25,11 +26,6 @@ interface Props {
         locale: string;
     };
 }
-
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: '/dashboard' },
-    { title: 'Settings', href: '/admin/settings' },
-];
 
 const timezones = [
     'UTC',
@@ -52,6 +48,7 @@ const locales = [
 ];
 
 export default function SettingsIndex({ settings }: Props) {
+    const { t } = useTranslation();
     const { data, setData, put, processing, errors } = useForm({
         site_name: settings.site_name,
         site_description: settings.site_description,
@@ -60,47 +57,52 @@ export default function SettingsIndex({ settings }: Props) {
         locale: settings.locale,
     });
 
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: t('admin:breadcrumbs.dashboard'), href: '/dashboard' },
+        { title: t('admin:breadcrumbs.settings'), href: '/admin/settings' },
+    ];
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         put('/admin/settings', {
-            onSuccess: () => toast.success('Settings saved successfully'),
-            onError: () => toast.error('Failed to save settings'),
+            onSuccess: () => toast.success(t('admin:settings.saved_success')),
+            onError: () => toast.error(t('admin:settings.saved_error')),
         });
     };
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Settings" />
+            <Head title={t('admin:settings.title')} />
             <div className="flex h-full flex-1 flex-col gap-6 p-4">
                 <div>
-                    <h1 className="text-2xl font-bold">General Settings</h1>
-                    <p className="text-muted-foreground">Manage your application settings and preferences</p>
+                    <h1 className="text-2xl font-bold">{t('admin:settings.general_title')}</h1>
+                    <p className="text-muted-foreground">{t('admin:settings.description')}</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Site Information */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>Site Information</CardTitle>
-                            <CardDescription>Basic information about your application</CardDescription>
+                            <CardTitle>{t('admin:settings.site_info')}</CardTitle>
+                            <CardDescription>{t('admin:settings.site_info_description')}</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                            <FormField label="Site Name" htmlFor="site_name" error={errors.site_name} required>
+                            <FormField label={t('admin:settings.site_name')} htmlFor="site_name" error={errors.site_name} required>
                                 <Input
                                     id="site_name"
                                     value={data.site_name}
                                     onChange={(e) => setData('site_name', e.target.value)}
-                                    placeholder="My Application"
+                                    placeholder={t('admin:settings.site_name_placeholder')}
                                     aria-invalid={!!errors.site_name}
                                 />
                             </FormField>
 
-                            <FormField label="Site Description" htmlFor="site_description" error={errors.site_description}>
+                            <FormField label={t('admin:settings.site_description')} htmlFor="site_description" error={errors.site_description}>
                                 <Textarea
                                     id="site_description"
                                     value={data.site_description}
                                     onChange={(e) => setData('site_description', e.target.value)}
-                                    placeholder="A brief description of your application"
+                                    placeholder={t('admin:settings.site_description_placeholder')}
                                     rows={3}
                                     aria-invalid={!!errors.site_description}
                                 />
@@ -111,15 +113,15 @@ export default function SettingsIndex({ settings }: Props) {
                     {/* Regional Settings */}
                     <Card>
                         <CardHeader>
-                            <CardTitle>Regional Settings</CardTitle>
-                            <CardDescription>Configure timezone, date format, and language preferences</CardDescription>
+                            <CardTitle>{t('admin:settings.regional')}</CardTitle>
+                            <CardDescription>{t('admin:settings.regional_description')}</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                                <FormField label="Timezone" htmlFor="timezone" error={errors.timezone}>
+                                <FormField label={t('admin:settings.timezone')} htmlFor="timezone" error={errors.timezone}>
                                     <Select value={data.timezone} onValueChange={(v) => setData('timezone', v)}>
                                         <SelectTrigger aria-invalid={!!errors.timezone}>
-                                            <SelectValue placeholder="Select timezone" />
+                                            <SelectValue placeholder={t('admin:settings.timezone_placeholder')} />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {timezones.map((tz) => (
@@ -131,13 +133,13 @@ export default function SettingsIndex({ settings }: Props) {
                                     </Select>
                                 </FormField>
 
-                                <FormField label="Date Format" htmlFor="date_format" error={errors.date_format}>
+                                <FormField label={t('admin:settings.date_format')} htmlFor="date_format" error={errors.date_format}>
                                     <Select
                                         value={data.date_format}
                                         onValueChange={(v) => setData('date_format', v)}
                                     >
                                         <SelectTrigger aria-invalid={!!errors.date_format}>
-                                            <SelectValue placeholder="Select date format" />
+                                            <SelectValue placeholder={t('admin:settings.date_format_placeholder')} />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {dateFormats.map((fmt) => (
@@ -149,10 +151,10 @@ export default function SettingsIndex({ settings }: Props) {
                                     </Select>
                                 </FormField>
 
-                                <FormField label="Language" htmlFor="locale" error={errors.locale}>
+                                <FormField label={t('admin:settings.locale')} htmlFor="locale" error={errors.locale}>
                                     <Select value={data.locale} onValueChange={(v) => setData('locale', v)}>
                                         <SelectTrigger aria-invalid={!!errors.locale}>
-                                            <SelectValue placeholder="Select language" />
+                                            <SelectValue placeholder={t('admin:settings.locale_placeholder')} />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {locales.map((loc) => (
@@ -171,7 +173,7 @@ export default function SettingsIndex({ settings }: Props) {
                     <div className="flex justify-end">
                         <Button type="submit" disabled={processing}>
                             {processing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Save Settings
+                            {t('admin:settings.save')}
                         </Button>
                     </div>
                 </form>
